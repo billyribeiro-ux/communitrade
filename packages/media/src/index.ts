@@ -12,6 +12,13 @@ export const MAX_IMAGE_PIXELS = 40_000_000;
 const KEY = /^[0-9a-f-]{36}\/(?:quarantine|processed)\.(?:bin|webp)$/i;
 const EXPORT_KEY = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}-a[1-9][0-9]*\.(?:csv|json)$/i;
 
+/** Key validation and resolved-path confinement are independent storage guards. */
+function storagePath(root: string, key: string): string {
+  const target = path.resolve(root, key);
+  if (!target.startsWith(root + path.sep)) throw new Error('Object path leaves storage root');
+  return target;
+}
+
 export interface StoragePort {
   putQuarantined(id: string, bytes: Uint8Array): Promise<string>;
   readQuarantined(id: string): Promise<Buffer>;
@@ -40,7 +47,7 @@ export class FilesystemExportStorage {
   async initialize(): Promise<void> { await mkdir(this.root, { recursive: true, mode: 0o700 }); await chmod(this.root, 0o700); }
   async put(id: string, bytes: Uint8Array, attempt = 1, format: 'csv' | 'json' = 'csv'): Promise<string> {
     const key = this.key(id, attempt, format); if (bytes.byteLength < 1) throw new Error('Export object cannot be empty');
-    await this.initialize(); const target = path.join(this.root, key); const temp = `${target}.${process.pid}.${randomUUID()}.tmp`;
+    await this.initialize(); const target = storagePath(this.root, key); const temp = `${target}.${process.pid}.${randomUUID()}.tmp`;
     try {
       const file = await open(temp, 'wx', 0o600);
       try { await file.writeFile(bytes); await file.sync(); } finally { await file.close(); }
@@ -54,8 +61,8 @@ export class FilesystemExportStorage {
       throw error;
     }
   }
-  async read(key: string): Promise<Buffer> { await this.initialize(); return readFile(path.join(this.root, this.validateKey(key))); }
-  async delete(key: string): Promise<void> { await unlink(path.join(this.root, this.validateKey(key))).catch((error: NodeJS.ErrnoException) => { if (error.code !== 'ENOENT') throw error; }); }
+  async read(key: string): Promise<Buffer> { await this.initialize(); return readFile(storagePath(this.root, this.validateKey(key))); }
+  async delete(key: string): Promise<void> { await unlink(storagePath(this.root, this.validateKey(key))).catch((error: NodeJS.ErrnoException) => { if (error.code !== 'ENOENT') throw error; }); }
   private key(id: string, attempt: number, format: 'csv' | 'json'): string {
     if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id) || !Number.isSafeInteger(attempt) || attempt < 1) throw new Error('Invalid export identity');
     return this.validateKey(`${id}-a${attempt}.${format}`);
@@ -93,7 +100,7 @@ export class FilesystemStorage implements StoragePort {
     const key = `${id}/processed.webp`;
     if (!KEY.test(key) || bytes.byteLength < 1) throw new Error('Invalid immutable media object');
     await this.initialize();
-    const target = path.join(this.processed, key);
+    const target = storagePath(this.processed, key);
     await mkdir(path.dirname(target), { recursive: true, mode: 0o700 });
     await chmod(path.dirname(target), 0o700);
     const temp = `${target}.${process.pid}.${randomUUID()}.tmp`;
@@ -118,12 +125,12 @@ export class FilesystemStorage implements StoragePort {
   async deleteObject(key: string): Promise<void> {
     if (!KEY.test(key)) throw new Error('Invalid media key');
     const root = key.includes('/quarantine.') ? this.quarantine : this.processed;
-    await unlink(path.join(root, key)).catch((error: NodeJS.ErrnoException) => { if (error.code !== 'ENOENT') throw error; });
+    await unlink(storagePath(root, key)).catch((error: NodeJS.ErrnoException) => { if (error.code !== 'ENOENT') throw error; });
   }
   private async write(root: string, key: string, bytes: Uint8Array): Promise<void> {
     if (!KEY.test(key)) throw new Error('Invalid media key');
     await this.initialize();
-    const target = path.join(root, key);
+    const target = storagePath(root, key);
     await mkdir(path.dirname(target), { recursive: true, mode: 0o700 });
     await chmod(path.dirname(target), 0o700);
     const temp = `${target}.${process.pid}.${randomUUID()}.tmp`;
@@ -138,7 +145,7 @@ export class FilesystemStorage implements StoragePort {
   }
   private async read(root: string, key: string): Promise<Buffer> {
     if (!KEY.test(key)) throw new Error('Invalid media key');
-    return readFile(path.join(root, key));
+    return readFile(storagePath(root, key));
   }
 }
 

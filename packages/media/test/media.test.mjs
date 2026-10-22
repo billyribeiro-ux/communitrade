@@ -1,10 +1,31 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readdir, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, readdir, rm, writeFile, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
 import test from 'node:test';
-import { FilesystemStorage, processAvatar } from '../dist/index.js';
+import { FilesystemStorage, FilesystemExportStorage, processAvatar } from '../dist/index.js';
+
+test('all local storage entry points reject escaping paths and leave sibling files intact', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'media-confinement-'));
+  try {
+    const sentinel = path.join(root, 'outside');
+    await writeFile(sentinel, 'unchanged');
+    const storage = new FilesystemStorage(path.join(root, 'objects'));
+    const exports = new FilesystemExportStorage(path.join(root, 'objects'));
+    for (const id of ['../../outside', sentinel, '..\\outside', '00000000-0000-4000-8000-000000000001/../../outside']) {
+      await assert.rejects(storage.putQuarantined(id, Buffer.from('replace')));
+      await assert.rejects(storage.putProcessed(id, Buffer.from('replace')));
+      await assert.rejects(storage.putImmutableProcessed(id, Buffer.from('replace')));
+      await assert.rejects(storage.readQuarantined(id));
+      await assert.rejects(storage.deleteObject(id));
+      await assert.rejects(exports.put(id, Buffer.from('replace')));
+      await assert.rejects(exports.read(id));
+      await assert.rejects(exports.delete(id));
+    }
+    assert.equal(await readFile(sentinel, 'utf8'), 'unchanged');
+  } finally { await rm(root, {recursive:true,force:true}); }
+});
 
 test('image processor verifies declared type and re-encodes metadata-free bounded output', async () => {
   const input = await sharp({ create: { width: 700, height: 300, channels: 3, background: '#123456' } }).png().withMetadata({ exif: { IFD0: { Artist: 'private' } } }).toBuffer();

@@ -1,6 +1,6 @@
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 
-const decode = (value) => value.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&#39;', "'");
+const decode = (value) => value.replace(/&(?:amp|quot|#39);/g, entity => ({'&amp;':'&','&quot;':'"','&#39;':"'"})[entity]);
 export const providerAttributes = (tag) => Object.fromEntries([...tag.matchAll(/([\w:.-]+)\s*=\s*["']([^"']*)["']/g)].map((match) => [match[1], decode(match[2])]));
 
 export function parseProviderForm(html) {
