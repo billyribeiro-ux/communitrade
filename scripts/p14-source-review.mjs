@@ -102,13 +102,11 @@ function pnpmProductionPackages() {
   return [...found].sort((a, b) => a.localeCompare(b));
 }
 
-const sourcePaths = execFileSync('rg', [
-  '--files', '--hidden',
-  '-g', '!**/.env*', '-g', '!**/.local/**', '-g', '!**/node_modules/**',
-  '-g', '!**/dist/**', '-g', '!**/build/**', '-g', '!**/generated/**', '-g', '!**/.next/**',
-  '-g', '!**/coverage/**', '-g', '!**/target/**', '-g', '!**/vendor/**',
-  ...scanRoots,
-], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim().split('\n').filter(Boolean);
+// Git is already required by CI. Include untracked, nonignored local sources as
+// well as tracked files without requiring a separately installed ripgrep binary.
+const sourcePaths = execFileSync('git', [
+  'ls-files', '--cached', '--others', '--exclude-standard', '-z', '--', ...scanRoots,
+], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).split('\0').filter(Boolean);
 for (const relative of sourcePaths) {
   const filename = path.basename(relative);
   if (isExcluded(relative, filename)) continue;

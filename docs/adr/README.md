@@ -40,3 +40,5 @@ Use [template](template.md) for subsequent decisions. Scope/cost changes follow 
 - [0024 Staff, support and privacy control](0024-staff-support-privacy-control.md)
 
 - [0025 Production boundaries and release evidence](0025-production-boundaries-and-release-evidence.md)
+
+- [0026 Solo-maintainer governance](0026-solo-maintainer-governance.md) — founder-approved review policy preserving automated protections.

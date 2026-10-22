@@ -1,0 +1,58 @@
+# P14 GitHub publication and release controls
+
+October 22, 2026. REQ-025–028, REQ-030 and REQ-031. This supplements the historical [local release preparation](release-closure.md). The founder authorized direct Git publication and explicitly said to leave the repository public for now. That final instruction determines visibility.
+
+## Published source and enforced controls
+
+`git push -u origin main` published the complete 687-file candidate at `63710c210db70c96d2c9e5ab948df480df02316a` to [communitrade](https://github.com/billyribeiro-ux/communitrade). GitHub administration used the existing authenticated CLI; no plugin or tool installation was needed. Visibility remains public. Subsequent fixes and evidence use [PR #1](https://github.com/billyribeiro-ux/communitrade/pull/1), branch `release/github-setup`.
+
+[Settings readback](../artifacts/github-setup/settings.json) records actual authenticated API responses:
+
+- Main requires current `checks` and `handoff` results from the observed GitHub Actions app `15368`, one code-owner approval, dismissal of stale reviews, an approver other than the latest pusher and resolved review conversations. Administrators are included; force-push and deletion are disabled.
+- Default workflow tokens are read-only and cannot approve PRs. Actions are limited to GitHub-owned actions with full commit-SHA pinning. Existing workflow action/runtime versions remain pinned.
+- Dependabot alerts and security updates plus private vulnerability reporting were enabled. Secret scanning and push protection were already enabled and were verified. The observed alert summaries are empty; that does not prove complete initial ingestion or a complete security review.
+- Squash merging is enabled; merge/rebase commits are disabled and merged branches are automatically deleted. CODEOWNERS parsing reports no errors.
+- Only `billyribeiro-ux` currently has collaborator access. The independent reviewer handle/invitation and code-owner eligibility remain founder inputs. No review was fabricated, no collaborator invited and no main protection bypassed. An independent reviewer must be eligible under the protected branch’s actual code-owner rules; write access alone does not replace that rule. Reviewer onboarding must account for the current owner-only CODEOWNERS baseline before attempting the bootstrap merge.
+
+The controls follow the verified [GitHub branch-protection API](https://docs.github.com/en/rest/branches/branch-protection) and [repository security settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository). They enforce repository workflows, not application launch approval or a staffed security service. No independent code/OS vulnerability certification is claimed. Native CodeQL default setup was requested for Actions, JavaScript/TypeScript, Python and Java/Kotlin; its validation and alert outcomes are tracked separately below. The observed GitHub SPDX dependency graph initially lists 45 packages; do not infer complete transitive ingestion from that count. CI separately audits the locked production dependency graph.
+
+## Actual CI execution
+
+The initial [application run](https://github.com/billyribeiro-ux/communitrade/actions/runs/39820813659) and [documentation run](https://github.com/billyribeiro-ux/communitrade/actions/runs/39820813526) failed before application checks because setup-node automatically attempted pnpm caching before pnpm activation. PR #1 disables implicit package-manager caching; it preserves Node 24.22.0, pnpm 12.14.0 and every dependency pin.
+
+The next [documentation run](https://github.com/billyribeiro-ux/communitrade/actions/runs/39821028454) passed. The [application run](https://github.com/billyribeiro-ux/communitrade/actions/runs/39821028490) then passed install/lint and the production advisory audit but failed because ripgrep was absent on the hosted runner. Source enumeration now uses Git’s NUL-delimited tracked and untracked nonignored file list. Existing explicit private/build/test path exclusions remain in effect. This removes an unnecessary runner tool dependency without installing or updating a runtime. Local source review still covers 380 files with three explicitly reviewed synthetic/template matches and no unreviewed secret-pattern findings.
+
+The [next application run](https://github.com/billyribeiro-ux/communitrade/actions/runs/39821265720) exercised all 372 tests: 355 passed, sixteen failed and one skipped. Failures were missing CI-only local cleanup mode/authentication settings. The workflow now scopes local mode and synthetic auth configuration to the test step, generates fresh ephemeral test keys without committing values, and provisions the existing exact-pinned Mailpit image on the hosted runner. Only that disposable runner receives a `mailpit` loopback host mapping; no Mac toolchain/global setting is changed. Synthetic SMTP is captured by Mailpit, enabling the previously skipped delivery test. Its readiness check uses the documented [Mailpit health endpoint](https://mailpit.axllent.org/docs/integration/healthcheck/). Production build settings/guards are unaffected.
+
+The [application run at 9e2fc00](https://github.com/billyribeiro-ux/communitrade/actions/runs/39821924930) passed **372 tests, zero failures, zero skips**, the production web build, immutable migration check, Keycloak provider build and all three production image builds. [Documentation](https://github.com/billyribeiro-ux/communitrade/actions/runs/39821924801) also passed. [Historical CI readback](../artifacts/github-setup/ci.json) records these actual runs. A later revision requires fresh checks.
+
+## Native CodeQL and boundary hardening
+
+The first [four-language CodeQL run](https://github.com/billyribeiro-ux/communitrade/actions/runs/39822191854) completed analysis of main. Actions, Python and Java/Kotlin reported no findings; JavaScript/TypeScript reported ten: one critical-rated proxy request-forgery warning, six high-rated media path-injection warnings, one high-rated numeric regex warning and two high-rated local fixture HTML decoding warnings. These are scanner classifications; exploitability is not established merely by the rating. Existing routes already use a configured API base and media keys have a restricted grammar. The hardening retains those guards and adds explicit defenses rather than dismissing warnings wholesale:
+
+- Copy pathname/query into an existing configured URL, preserving its authority. Reject non-API paths and normalized traversal, bind ingress signatures to the actual forwarded path, and retain manual redirect handling.
+- Resolve filesystem destinations and verify their storage-root prefix independently of the key grammar before I/O.
+- Use disjoint decimal-regex alternatives to avoid the ambiguous repeated digit branches.
+- Decode supported provider form entities once through the shared local fixture helper, preserving nested entities.
+
+Added five regression cases; **24 targeted tests passed** locally, including a bounded child process with 100,000 adversarial digits, proxy authority/path escape rejection, sibling-file preservation across storage operations and nested-entity decoding. Local lint passed. [ADR 0025](../../adr/0025-production-boundaries-and-release-evidence.md) records the boundary decision. The [repeated four-language CodeQL run](https://github.com/billyribeiro-ux/communitrade/actions/runs/39822997151) passed at `7937ae3bfbf90b63f8a75f8bf1174dd5f9b7536b`, with **zero results for each language** and no analysis errors. The actual `refs/pull/1/head` alert list is empty; [analysis/alert readback](../artifacts/github-setup/codeql.json) retains both the main baseline and PR results. No alert was dismissed. Alerts on main remain open until independent review, merge and a main scan.
+
+Applied and read back [main security ruleset](../../../.github/code-scanning-ruleset.json) `25659929`, active only on `refs/heads/main`, requiring CodeQL results and blocking high/critical security alerts and error-level findings with no bypass actors. This uses the native [GitHub code scanning ruleset API](https://docs.github.com/en/rest/repos/rules#create-a-repository-ruleset); it complements the existing review/check branch protection without adding raw per-language job names that might not run for irrelevant changes.
+
+On the hardened source, local type checking, optimized web build and `pnpm test:p14:http` passed (nonce uniqueness/injection, restrictive script policy, no-store health proxy and private redirects). Source review covers 381 authored files and retains only the three reviewed synthetic/template matches. Rendered UI/accessibility acceptance remains unperformed under the saved browser denial.
+
+## Release decision and remaining work
+
+G02 has actual publication, enforced controls and CI execution evidence. It remains open until independent review governance and all required checks pass. [The gate register](../p14-release-status.json) stays **NO_GO** for public paid launch. Public source publication is distinct from deploying the product.
+
+The [founder checklist](../../handoff/release-closure.md) still requires legal operator/brand/domain, independent reviewer, licensed data rights, counsel/IP approval, provider account access and budget, processor acceptance, sender/support ownership, permitted browser/assistive-technology review, managed recovery and genuine beta evidence. Existing local recovery/load/license work remains useful evidence; it cannot supply those external approvals. No product deployment, service purchase, live charge or outside recipient message occurred.
+
+## Hardened candidate result
+
+At source revision `7937ae3bfbf90b63f8a75f8bf1174dd5f9b7536b`, [Application checks](https://github.com/billyribeiro-ux/communitrade/actions/runs/39823003950) passed **377 tests, zero failed, zero skipped**, plus lint, production advisory/source review, seven release-helper tests, migration/repeat seed, type checking, contract checks, optimized web build, fixture/refusal boundaries, migration checksums, Keycloak compilation and all three production image builds. [Documentation integrity](https://github.com/billyribeiro-ux/communitrade/actions/runs/39823004117) passed. All four CodeQL analyses and the aggregate CodeQL check succeeded with zero PR findings. The release report correctly remains NO_GO; a successful report command is not a successful launch decision.
+
+The subsequent evidence/settings-file commit preserves that tested application source and receives fresh required checks. [PR #1 checks](https://github.com/billyribeiro-ux/communitrade/pull/1/checks) are authoritative for its current head; earlier run results do not establish a later commit passed. No release tag or production deployment was created. The local tree and remote branch are checked again at handoff.
+
+## Subsequent founder-approved solo policy
+
+The independent-review prerequisite in this historical execution was superseded by the founder’s explicit [ADR 0026](../../adr/0026-solo-maintainer-governance.md) authorization. See [solo policy/review evidence](solo-maintainer.md) for actual review and merge handling. Automated protections remain enforced; no human approval is fabricated.

@@ -1,0 +1,94 @@
+{
+  "observedAt": "2026-10-22T19:36:14.455364+00:00",
+  "pullRequest": "https://github.com/billyribeiro-ux/communitrade/pull/1",
+  "head": "50f0fec811bab940fa0e45367114baa18c0354ca",
+  "checks": [
+    {
+      "name": "Analyze (actions)",
+      "status": "IN_PROGRESS",
+      "conclusion": "",
+      "detailsUrl": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39840434138/job/120039707114"
+    },
+    {
+      "name": "checks",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39840438874/job/120039718278"
+    },
+    {
+      "name": "handoff",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39840438883/job/120039717849"
+    },
+    {
+      "name": "Analyze (java-kotlin)",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39840434138/job/120039707240"
+    },
+    {
+      "name": "Analyze (javascript-typescript)",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39840434138/job/120039706741"
+    },
+    {
+      "name": "Analyze (python)",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39840434138/job/120039707213"
+    },
+    {
+      "name": "CodeQL",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/billyribeiro-ux/communitrade/runs/120040028064"
+    }
+  ],
+  "applicationSuite": {
+    "tests": 377,
+    "pass": 377,
+    "fail": 0,
+    "skipped": 0
+  },
+  "codeql": [
+    {
+      "category": "/language:javascript-typescript",
+      "commit_sha": "50f0fec811bab940fa0e45367114baa18c0354ca",
+      "error": "",
+      "id": 2007898552,
+      "ref": "refs/pull/1/head",
+      "results_count": 0,
+      "rules_count": 87
+    },
+    {
+      "category": "/language:java-kotlin",
+      "commit_sha": "50f0fec811bab940fa0e45367114baa18c0354ca",
+      "error": "",
+      "id": 2007898044,
+      "ref": "refs/pull/1/head",
+      "results_count": 0,
+      "rules_count": 76
+    },
+    {
+      "category": "/language:python",
+      "commit_sha": "50f0fec811bab940fa0e45367114baa18c0354ca",
+      "error": "",
+      "id": 2007896975,
+      "ref": "refs/pull/1/head",
+      "results_count": 0,
+      "rules_count": 43
+    },
+    {
+      "category": "/language:actions",
+      "commit_sha": "50f0fec811bab940fa0e45367114baa18c0354ca",
+      "error": "",
+      "id": 2007895715,
+      "ref": "refs/pull/1/head",
+      "results_count": 0,
+      "rules_count": 17
+    }
+  ],
+  "scope": "Required application/docs checks and aggregate CodeQL passed. One native Analyze(actions) check remained in progress despite completed workflow/zero-result uploaded analysis. GitHub refused job/run retries; the evidence-only update triggers fresh final-head checks. Every final-head check must complete successfully before merge; no check is overridden."
+}

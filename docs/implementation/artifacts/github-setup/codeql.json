@@ -1,0 +1,171 @@
+{
+  "observedAt": "2026-10-22T17:31:34.842929+00:00",
+  "analyses": [
+    {
+      "category": "/language:javascript-typescript",
+      "commit_sha": "7937ae3bfbf90b63f8a75f8bf1174dd5f9b7536b",
+      "error": "",
+      "id": 2006990415,
+      "ref": "refs/pull/1/head",
+      "results_count": 0,
+      "rules_count": 87
+    },
+    {
+      "category": "/language:java-kotlin",
+      "commit_sha": "7937ae3bfbf90b63f8a75f8bf1174dd5f9b7536b",
+      "error": "",
+      "id": 2006989433,
+      "ref": "refs/pull/1/head",
+      "results_count": 0,
+      "rules_count": 76
+    },
+    {
+      "category": "/language:python",
+      "commit_sha": "7937ae3bfbf90b63f8a75f8bf1174dd5f9b7536b",
+      "error": "",
+      "id": 2006987188,
+      "ref": "refs/pull/1/head",
+      "results_count": 0,
+      "rules_count": 43
+    },
+    {
+      "category": "/language:actions",
+      "commit_sha": "7937ae3bfbf90b63f8a75f8bf1174dd5f9b7536b",
+      "error": "",
+      "id": 2006985708,
+      "ref": "refs/pull/1/head",
+      "results_count": 0,
+      "rules_count": 17
+    },
+    {
+      "category": "/language:java-kotlin",
+      "commit_sha": "63710c210db70c96d2c9e5ab948df480df02316a",
+      "error": "",
+      "id": 2006951427,
+      "ref": "refs/heads/main",
+      "results_count": 0,
+      "rules_count": 76
+    },
+    {
+      "category": "/language:javascript-typescript",
+      "commit_sha": "63710c210db70c96d2c9e5ab948df480df02316a",
+      "error": "",
+      "id": 2006949323,
+      "ref": "refs/heads/main",
+      "results_count": 10,
+      "rules_count": 87
+    },
+    {
+      "category": "/language:python",
+      "commit_sha": "63710c210db70c96d2c9e5ab948df480df02316a",
+      "error": "",
+      "id": 2006946564,
+      "ref": "refs/heads/main",
+      "results_count": 0,
+      "rules_count": 43
+    },
+    {
+      "category": "/language:actions",
+      "commit_sha": "63710c210db70c96d2c9e5ab948df480df02316a",
+      "error": "",
+      "id": 2006945530,
+      "ref": "refs/heads/main",
+      "results_count": 0,
+      "rules_count": 17
+    }
+  ],
+  "mainAlerts": [
+    {
+      "line": 65,
+      "number": 10,
+      "path": "packages/contracts/src/runtime.ts",
+      "rule": "js/polynomial-redos",
+      "severity": "high",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/10"
+    },
+    {
+      "line": 3,
+      "number": 9,
+      "path": "scripts/lib/drive-keycloak-aia.mjs",
+      "rule": "js/double-escaping",
+      "severity": "high",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/9"
+    },
+    {
+      "line": 17,
+      "number": 8,
+      "path": "apps/api/scripts/verify-p04-live.mjs",
+      "rule": "js/double-escaping",
+      "severity": "high",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/8"
+    },
+    {
+      "line": 135,
+      "number": 7,
+      "path": "packages/media/src/index.ts",
+      "rule": "js/path-injection",
+      "severity": "high",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/7"
+    },
+    {
+      "line": 133,
+      "number": 6,
+      "path": "packages/media/src/index.ts",
+      "rule": "js/path-injection",
+      "severity": "high",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/6"
+    },
+    {
+      "line": 133,
+      "number": 5,
+      "path": "packages/media/src/index.ts",
+      "rule": "js/path-injection",
+      "severity": "high",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/5"
+    },
+    {
+      "line": 131,
+      "number": 4,
+      "path": "packages/media/src/index.ts",
+      "rule": "js/path-injection",
+      "severity": "high",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/4"
+    },
+    {
+      "line": 128,
+      "number": 3,
+      "path": "packages/media/src/index.ts",
+      "rule": "js/path-injection",
+      "severity": "high",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/3"
+    },
+    {
+      "line": 127,
+      "number": 2,
+      "path": "packages/media/src/index.ts",
+      "rule": "js/path-injection",
+      "severity": "high",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/2"
+    },
+    {
+      "line": 80,
+      "number": 1,
+      "path": "apps/web/src/app/api/v1/[...path]/route.ts",
+      "rule": "js/request-forgery",
+      "severity": "critical",
+      "state": "open",
+      "url": "https://github.com/billyribeiro-ux/communitrade/security/code-scanning/1"
+    }
+  ],
+  "candidateAlerts": [],
+  "scope": "PR 7937ae3 has zero results in all four language analyses; main baseline alerts remain open until reviewed merge and rescan. No alert dismissed."
+}

@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     services:
+      mailpit:
+        image: axllent/mailpit:v1.27.8@sha256:6abc8e633df15eaf785cfcf38bae48e66f64beecdc03121e249d0f9ec15f0707
+        ports:
+          - 1025:1025
+          - 8025:8025
       postgres:
         image: postgres:18.6@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
         env:
@@ -37,6 +42,7 @@ jobs:
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5 tag resolved 2026-10-19
         with:
           node-version: '24.22.0'
+          package-manager-cache: false # pnpm is activated in the following step
       - name: Activate pinned pnpm
         run: |
           corepack enable
@@ -64,7 +70,26 @@ jobs:
       - name: Validate OpenAPI, chart schema and generated client drift
         run: pnpm check:contracts
       - name: Test
-        run: pnpm test
+        env:
+          # Disposable CI fixtures only; production builds keep their own guards.
+          RELEASE_MODE: local
+          NODE_ENV: test
+          APP_ORIGIN: http://localhost:3000
+          OIDC_ISSUER: http://localhost:8080/realms/ci
+          OIDC_CLIENT_ID: ci-fixture-client
+          OIDC_REDIRECT_URI: http://localhost:3000/api/v1/auth/callback
+          OIDC_ACCOUNT_URL: http://localhost:8080/realms/ci/account
+          SMTP_HOST: mailpit
+          SMTP_PORT: '1025'
+          MAILPIT_URL: http://localhost:8025
+          EMAIL_FROM: ci@example.invalid
+        run: |
+          printf '127.0.0.1 mailpit\n' | sudo tee -a /etc/hosts > /dev/null
+          export SESSION_SECRET="$(node -e "process.stdout.write(require('node:crypto').randomBytes(32).toString('hex'))")"
+          export DATA_ENCRYPTION_KEY="$(node -e "process.stdout.write(require('node:crypto').randomBytes(32).toString('hex'))")"
+          export OIDC_CLIENT_SECRET="$(node -e "process.stdout.write(require('node:crypto').randomBytes(32).toString('hex'))")"
+          node --input-type=module -e "const response=await fetch(process.env.MAILPIT_URL+'/readyz',{signal:AbortSignal.timeout(10000)});if(!response.ok)throw new Error('CI Mailpit not ready');"
+          pnpm test
       - name: Build
         run: pnpm build
       - name: Verify P03 release and nonlocal fixture boundaries

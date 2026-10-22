@@ -3,6 +3,7 @@ import {randomUUID,createHmac,randomBytes} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {Pool} from 'pg';
 import {createRequire} from 'node:module';
+import {providerAttributes as attrs} from '../../../scripts/lib/drive-keycloak-aia.mjs';
 const mediaRequire=createRequire(new URL('../../../packages/media/package.json',import.meta.url));
 const sharp=mediaRequire('sharp');
 const contractRequire=createRequire(new URL('../../../packages/contracts/package.json',import.meta.url));
@@ -14,7 +15,6 @@ const input=JSON.parse(await new Promise(resolve=>{let data='';process.stdin.set
 if(process.env.RELEASE_MODE!=='local'||!input.personas.synthetic)throw new Error('Refusing nonlocal protocol test.');
 const app=process.env.APP_ORIGIN;const issuer=process.env.OIDC_ISSUER;const provider=new URL(issuer).origin;
 const pool=new Pool({connectionString:process.env.DATABASE_URL});let stage='initialization';let temporaryPerson;
-const decode=value=>value.replaceAll('&amp;','&').replaceAll('&quot;','"').replaceAll('&#39;',"'");
 class Jar{
  cookies=new Map();callback;
  async request(url,options={}){
@@ -34,7 +34,6 @@ class Jar{
  async api(path,{method='GET',body,csrf,key,match,raw,mime}={}){const headers={...(body?{'Content-Type':'application/json'}:{}),...(raw?{'Content-Type':mime}:{}),...(csrf?{'X-CSRF-Token':csrf}:{}),...(key?{'Idempotency-Key':key}:{}),...(match?{'If-Match':`"${match}"`}:{}),...(method!=='GET'?{Origin:app}:{})};return this.request(`${app}/api/v1${path}`,{method,headers,...(raw?{body:raw}:body?{body:JSON.stringify(body)}:{})});}
 }
 function data(result,status=200){if(result.response.status!==status)throw new Error(`HTTP status ${result.response.status}, expected ${status}: ${JSON.parse(result.text||'{}').code??'unknown'}`);return JSON.parse(result.text);}
-function attrs(tag){return Object.fromEntries([...tag.matchAll(/([\w:.-]+)\s*=\s*["']([^"']*)["']/g)].map(x=>[x[1],decode(x[2])]));}
 function form(html){const match=html.match(/<form\b([^>]*)>([\s\S]*?)<\/form>/i);if(!match)throw new Error('Expected provider form');const fields={};for(const input of match[2].matchAll(/<input\b[^>]*>/gi)){const a=attrs(input[0]);if(a.name&&!['checkbox','submit','button'].includes(a.type))fields[a.name]=a.value??'';}return{action:attrs(match[1]).action,fields};}
 async function submit(jar,page,values){const f=form(page.text);const action=new URL(f.action,page.url);if(action.origin!==provider)throw new Error('Provider credential action left configured issuer origin');return jar.request(action.href,{method:'POST',headers:{Origin:provider,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({...f.fields,...values})});}
 function otp(secret){const alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';let value=0,bits=0;const bytes=[];for(const letter of secret){value=(value<<5)|alphabet.indexOf(letter);bits+=5;if(bits>=8){bytes.push((value>>>(bits-8))&255);bits-=8;}}const time=Buffer.alloc(8);time.writeBigUInt64BE(BigInt(Math.floor(Date.now()/30000)));const hash=createHmac('sha1',Buffer.from(bytes)).update(time).digest();const offset=hash[19]&15;return String((hash.readUInt32BE(offset)&0x7fffffff)%1000000).padStart(6,'0');}

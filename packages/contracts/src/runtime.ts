@@ -59,10 +59,11 @@ function routeParams(template: string): string[] {
   return [...template.matchAll(/\{([^}]+)\}/g)].map((match) => match[1]).filter((value): value is string => value !== undefined);
 }
 
-function coerce(value: unknown, schema: Schema | undefined): unknown {
+/** @internal Parameter coercion is separately exercised against hostile numeric text. */
+export function coerce(value: unknown, schema: Schema | undefined): unknown {
   if (typeof value !== 'string' || !schema) return value;
   if (schema.type === 'integer' && /^-?\d+$/.test(value)) return Number(value);
-  if (schema.type === 'number' && /^-?(?:\d+\.?\d*|\.\d+)$/.test(value)) return Number(value);
+  if (schema.type === 'number' && /^-?(?:\d+(?:\.\d*)?|\.\d+)$/.test(value)) return Number(value);
   if (schema.type === 'boolean' && (value === 'true' || value === 'false')) return value === 'true';
   return value;
 }

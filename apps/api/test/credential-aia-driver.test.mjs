@@ -1,6 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { driveKeycloakCredentialDeletion } from '../../../scripts/lib/drive-keycloak-aia.mjs';
+import { driveKeycloakCredentialDeletion, providerAttributes } from '../../../scripts/lib/drive-keycloak-aia.mjs';
+
+test('provider attributes decode one entity layer without recursively changing form values', () => {
+  const attributes = providerAttributes('<input name="token" value="&amp;quot;&quot;&#39;&amp;#39;&amp;">');
+  assert.equal(attributes.value, '&quot;"\'&#39;&');
+});
 
 const issuer = 'https://identity.example.test/realms/synthetic';
 const action = `${issuer}/login-actions/required-action?session_code=hidden-action-value`;

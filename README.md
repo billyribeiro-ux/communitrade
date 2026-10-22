@@ -80,6 +80,6 @@ This is a proprietary commercial project; see [LICENSE](LICENSE). Third-party co
 
 Engineering standards: [contributing](CONTRIBUTING.md), [security](SECURITY.md), [support](SUPPORT.md), [conduct](CODE_OF_CONDUCT.md), [changelog](CHANGELOG.md).
 
-GitHub remote URL, branch rules, reviewer handles, actual business/domain identity, signed vendor agreements, and production secrets must be supplied through the [dependency register](docs/handoff/dependencies-and-release-gates.md). No GitHub repository has been created or pushed.
+The complete candidate is published to [communitrade](https://github.com/billyribeiro-ux/communitrade), public under the founder’s October 22 instruction. Branch protections and security settings are enforced; [GitHub evidence](docs/implementation/evidence/github-setup.md) records CI results and the founder-approved [solo review policy](docs/adr/0026-solo-maintainer-governance.md). Business/domain identity, vendor agreements, provider access and remaining approvals follow the [release checklist](docs/handoff/release-closure.md).
 
 P10 local acceptance: `pnpm test:p10:live` after healthy API/web/worker. Exports are in the Journal page. Watchlist labels are resolved in a batched, rights-aware API response; no per-instrument browser request fan-out is required.

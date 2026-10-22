@@ -1,8 +1,21 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { spawnSync } from 'node:child_process';
 import { ContractValidationError, validateRequest, validateChartState, createApiClient } from '../dist/index.js';
 
 const uuid = '00000000-0000-4000-8000-000000000000';
+
+test('numeric parameter coercion handles adversarial digit strings within a bounded child process', () => {
+  const moduleUrl = new URL('../dist/runtime.js', import.meta.url).href;
+  const result = spawnSync(process.execPath, ['--input-type=module', '-e', `
+    import assert from 'node:assert/strict';
+    import {coerce} from ${JSON.stringify(moduleUrl)};
+    for (const [text, number] of [['0',0],['-12.25',-12.25],['.5',.5],['1.',1],['-.25',-.25]]) assert.equal(coerce(text,{type:'number'}),number);
+    for (const text of ['1e2','--1','0'.repeat(100000)+'!']) assert.equal(coerce(text,{type:'number'}),text);
+  `], {encoding:'utf8',timeout:2000});
+  assert.equal(result.error, undefined, 'hostile numeric input must not exhaust the validation CPU budget');
+  assert.equal(result.status, 0, result.stderr);
+});
 
 test('request schemas reject missing path values, malformed UUIDs and unknown fields', () => {
   assert.throws(() => validateRequest('getInstrument', {}), ContractValidationError);

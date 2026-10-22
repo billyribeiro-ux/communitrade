@@ -1,0 +1,24 @@
+{
+  "completedAt": "2026-10-22T19:31:02Z",
+  "method": "Codex CLI noninteractive review in a separate session",
+  "model": "gpt-6.1-sol (existing configured default; no model override)",
+  "sandbox": "read-only",
+  "processExitCode": 0,
+  "baseRevision": "63710c210db70c96d2c9e5ab948df480df02316a",
+  "reviewedRevision": "50f0fec811bab940fa0e45367114baa18c0354ca",
+  "scope": "Complete PR #1 diff with relevant tracked surrounding code and tests; secrets/private files excluded by review instructions.",
+  "findings": [],
+  "result": "No actionable regressions found in the complete diff. Automated protections remain coherent in the tracked configuration and recorded settings; nine focused tests passed. Live settings and full CI were not revalidated, and this automated review does not provide independent human assurance.",
+  "focusedTests": {
+    "command": "node --test apps/web/test/api-target.test.mjs apps/api/test/credential-aia-driver.test.mjs",
+    "tests": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "rawLocalLogSHA256": "47d37215a850bc6a5e5f80c682357381bfb2299d5845ba78b2ce365c5468c036",
+  "limitations": [
+    "Automated review may miss defects and is not independent human assurance.",
+    "Live GitHub settings and full hosted CI are verified separately by the implementing agent.",
+    "Final evidence-only updates are examined separately; runtime code must remain identical to this reviewed revision or receive another review."
+  ]
+}

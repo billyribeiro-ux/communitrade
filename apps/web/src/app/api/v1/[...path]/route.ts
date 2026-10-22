@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { providerClientIp, trustedIngressHeaders } from '@/lib/server/ingress';
+import { apiProxyTarget } from '@/lib/server/api-target';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -37,6 +38,14 @@ async function readLimitedBody(request: Request): Promise<Uint8Array> {
 }
 
 async function forward(request: NextRequest): Promise<Response> {
+  let target: URL;
+  try {
+    target = apiProxyTarget(API_ORIGIN, request.nextUrl.pathname, request.nextUrl.search);
+  } catch (error) {
+    const invalidPath = error instanceof Error && error.message === 'INVALID_API_PATH';
+    const status = invalidPath ? 400 : 503;
+    return Response.json({ statusCode: status, code: invalidPath ? 'INVALID_API_PATH' : 'API_UNAVAILABLE' }, { status, headers: { 'Cache-Control': 'no-store' } });
+  }
   const production = ['production', 'public'].includes((process.env.RELEASE_MODE ?? '').toLowerCase()) || process.env.NODE_ENV==='production'&&process.env.RELEASE_MODE!=='local';
   const hasBody = request.method !== 'GET' && request.method !== 'HEAD';
   let body: Uint8Array | undefined;
@@ -59,7 +68,7 @@ async function forward(request: NextRequest): Promise<Response> {
       ingress = trustedIngressHeaders({
         secret: process.env.TRUSTED_INGRESS_SECRET ?? '',
         method: request.method,
-        path: `${request.nextUrl.pathname}${request.nextUrl.search}`,
+        path: `${target.pathname}${target.search}`,
         principal: 'web',
         body,
         ...(clientIp === undefined ? {} : { clientIp }),
@@ -75,7 +84,6 @@ async function forward(request: NextRequest): Promise<Response> {
   for (const key of Array.from(headers.keys())) if (key.toLowerCase().startsWith('x-trusted-ingress-')) headers.delete(key);
   ingress?.forEach((value, key) => headers.set(key, value));
   if (body?.byteLength) headers.set('content-length', String(body.byteLength));
-  const target = new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, API_ORIGIN);
   try {
     const upstream = await fetch(target, {
       method: request.method,

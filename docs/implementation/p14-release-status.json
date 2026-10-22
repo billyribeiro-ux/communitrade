@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "reviewDate": "2026-10-22",
   "decision": "NO_GO",
-  "scope": "local engineering candidate; no deployment authorization",
+  "scope": "published engineering candidate; no production deployment or paid launch authorization",
   "gates": [
     {
       "id": "G01",
@@ -17,11 +17,21 @@
     {
       "id": "G02",
       "owner": "Founder + engineering",
-      "status": "open",
-      "reason": "Supplied public/empty GitHub remote and local Git/CODEOWNERS/protection settings prepared; publication choice, independent reviewer, remote CI and enforced settings pending",
-      "evidence": [],
-      "reviewer": null,
-      "reviewedAt": null,
+      "status": "passed",
+      "reason": "Repository governance is established under explicitly founder-approved ADR 0026: protected PRs with zero human approvals, automated protections verified unchanged, separate full-PR read-only review found no actionable findings, and actual hosted 377-test/build plus zero-finding four-language CodeQL results recorded at 50f0fec. Governance passage does not authorize production launch; merge is separately bound to every final-head check passing.",
+      "evidence": [
+        "docs/implementation/evidence/github-setup.md",
+        "docs/implementation/artifacts/github-setup/settings.json",
+        "docs/implementation/artifacts/github-setup/ci.json",
+        "docs/implementation/artifacts/github-setup/codeql.json",
+        "docs/adr/0026-solo-maintainer-governance.md",
+        "docs/implementation/evidence/solo-maintainer.md",
+        "docs/implementation/artifacts/solo-maintainer/after.json",
+        "docs/implementation/artifacts/solo-maintainer/review.json",
+        "docs/implementation/artifacts/solo-maintainer/validated-head.json"
+      ],
+      "reviewer": "Codex automated review and engineering readback under founder-authorized solo policy; no independent human review claimed",
+      "reviewedAt": "2026-10-22T19:36:14.457237+00:00",
       "expiresAt": null
     },
     {
@@ -78,7 +88,7 @@
       "id": "G08",
       "owner": "Engineering",
       "status": "open",
-      "reason": "Local automated suite, load and boundary checks passed; rendered browser/assistive-technology matrix remains blocked by saved localhost origin permission",
+      "reason": "Hosted reviewed candidate passed 377 application tests with zero failures/skips, builds and zero-finding CodeQL in all four languages. Manual rendered browser/assistive-technology matrix remains blocked by saved localhost permission.",
       "evidence": [],
       "reviewer": null,
       "reviewedAt": null,
@@ -134,6 +144,14 @@
     "docs/handoff/release-closure.md",
     "docs/implementation/evidence/release-closure.md",
     "docs/implementation/artifacts/release-closure/inventory.json",
-    "docs/implementation/artifacts/release-closure/repository.json"
+    "docs/implementation/artifacts/release-closure/repository.json",
+    "docs/implementation/evidence/github-setup.md",
+    "docs/implementation/artifacts/github-setup/settings.json",
+    "docs/implementation/artifacts/github-setup/ci.json",
+    "docs/implementation/artifacts/github-setup/codeql.json",
+    "docs/implementation/evidence/solo-maintainer.md",
+    "docs/implementation/artifacts/solo-maintainer/after.json",
+    "docs/implementation/artifacts/solo-maintainer/review.json",
+    "docs/implementation/artifacts/solo-maintainer/validated-head.json"
   ]
 }

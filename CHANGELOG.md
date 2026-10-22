@@ -1,6 +1,18 @@
 # Changelog
 
 
+## Solo-maintainer governance — October 22, 2026
+
+- Applied the founder-approved solo review policy while preserving required PRs, CI, CodeQL, secret protection, Actions restrictions and administrator enforcement.
+- Recorded ADR 0026 and actual before/after comparisons; separate read-only full-PR review found no actionable findings, and nine focused tests passed. Hosted 377-test/build and zero-finding CodeQL results were recorded. G02 repository governance is established under the approved solo policy; other launch gates remain open. [Execution evidence](docs/implementation/evidence/solo-maintainer.md) records actual outcomes and limitations.
+
+## GitHub publication and governance — October 22, 2026
+
+- Published the complete Phase 1 candidate to the founder’s repository using Git; kept it public under the latest explicit instruction.
+- Enforced main review/check protections, bound checks to GitHub Actions, restricted Actions to SHA-pinned GitHub-owned actions, and enabled Dependabot and private security reporting; verified existing secret scanning/push protection.
+- Corrected initial remote CI bootstrap failure caused by implicit pnpm caching before activation and removed the source scanner’s unnecessary ripgrep runtime dependency; scoped synthetic test configuration and exact-pinned Mailpit now supply the integration environment. Exact package/runtime pins are unchanged. Follow-up changes use PR #1 and await independent review. Actual results and remaining release gates are in [GitHub evidence](docs/implementation/evidence/github-setup.md).
+- Enabled native CodeQL for Actions, JavaScript/TypeScript, Python and Java/Kotlin; its first scan prompted explicit proxy authority/storage confinement, linear numeric parsing and single-pass local provider entity decoding. Five regression cases added; hosted 377-test suite/builds and all four repeated CodeQL analyses passed with zero PR findings. Enforced the main CodeQL security gate; independent review and launch gates remain open.
+
 ## Release gate preparation — October 22, 2026
 
 - Initialized local Git and configured the supplied public/empty `billyribeiro-ux/communitrade` remote; no source pushed or remote settings changed. Prepared real-owner CODEOWNERS and branch-protection settings.
