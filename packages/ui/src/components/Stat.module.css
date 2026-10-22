@@ -1,0 +1,7 @@
+.stat { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
+.label, .period, .explanation { color: var(--text-secondary); }
+.label { font-size: 12px; font-weight: 650; }
+.value { overflow-wrap: anywhere; color: var(--text-primary); font-size: clamp(20px, 3vw, 28px); font-variant-numeric: tabular-nums; line-height: 1.2; }
+.denominator { color: var(--text-secondary); font-size: .72em; font-weight: 500; }
+.period, .explanation { font-size: 12px; }
+.explanation { margin: 2px 0 0; line-height: 1.45; }

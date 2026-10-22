@@ -1,0 +1,62 @@
+.main { width: min(100%, 960px); margin: 0 auto; padding: clamp(24px, 5vw, 56px) clamp(16px, 4vw, 40px); }
+.eyebrow { color: var(--text-secondary); font-size: 12px; font-weight: 700; letter-spacing: .09em; margin: 0 0 8px; }
+.main h1 { font-size: clamp(30px, 4vw, 42px); line-height: 1.15; margin: 0 0 12px; letter-spacing: -.03em; }
+.intro { color: var(--text-secondary); font-size: 16px; max-width: 68ch; margin: 0 0 28px; }
+.card,.empty,.notice { border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--surface-card); padding: clamp(18px, 3vw, 28px); }
+.card h2,.empty h2,.notice h2 { font-size: 19px; margin: 0 0 14px; }
+.card ul { padding-inline-start: 22px; margin: 0; color: var(--text-secondary); }
+.card li { margin-block: 9px; }
+.empty,.notice { display: flex; align-items: flex-start; gap: 14px; }
+.empty { flex-direction: column; align-items: center; text-align: center; color: var(--text-secondary); }
+.empty p,.notice p { margin: 0; color: var(--text-secondary); }
+.notice { color: var(--warning); }
+.aside { display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 13px; margin-top: 22px; flex-wrap: wrap; }
+.aside a { display: inline-flex; align-items: center; gap: 4px; margin-inline-start: auto; }
+.chart { margin-top: 24px; padding: 14px; border: 1px solid var(--border-subtle); border-radius: 8px; }
+.chartTitle { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.chart svg { display: block; width: 100%; min-height: 220px; margin-block: 12px; background: var(--surface-page); border-radius: 6px; }
+.chart svg path { stroke: var(--border-subtle); stroke-width: 1; }
+.chart svg polyline { fill: none; stroke: var(--accent); stroke-width: 3; }
+.chart p { color: var(--text-secondary); font-size: 12px; margin: 0; }
+.skeleton { height: 90px; border-radius: 10px; background: var(--surface-raised); margin-bottom: 12px; }
+.cards { display: grid; gap: 16px; }
+.author { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.author small { display: block; color: var(--text-secondary); }
+.avatar { width: 40px; height: 40px; display: grid; place-items: center; flex: 0 0 40px; border-radius: 50%; background: var(--surface-raised); color: var(--text-primary); font-weight: 700; }
+.status { margin-inline-start: auto; padding: 3px 8px; border: 1px solid var(--border-subtle); border-radius: 99px; color: var(--text-secondary); font-size: 12px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 12px; margin-bottom: 16px; }
+.stats article { display: flex; flex-direction: column; gap: 6px; padding: 16px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--surface-card); }
+.stats small { color: var(--text-secondary); }
+.stats b { font-size: 26px; font-variant-numeric: tabular-nums; }
+.stats b span { font-size: 13px; color: var(--text-secondary); font-weight: 400; }
+.stats a { font-size: 13px; }
+.stats progress { width: 100%; accent-color: var(--accent); }
+.twoCol { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; align-items: start; }
+.twoCol .card { min-width: 0; }
+.twoCol .card label,.card label { display: grid; gap: 6px; margin-block: 12px; font-weight: 600; }
+.twoCol input,.twoCol select,.twoCol textarea,.filters input,.filters select { width: 100%; min-width: 0; min-height: 42px; padding: 9px 11px; color: var(--text-primary); background: var(--surface-page); border: 1px solid var(--border-subtle); border-radius: 6px; font: inherit; }
+.twoCol textarea { resize: vertical; }
+.twoCol label small { color: var(--text-secondary); font-weight: 400; }
+.twoCol button,.filters button,.actions button { min-height: 40px; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border-subtle); color: var(--text-secondary); background: var(--surface-raised); }
+.twoCol button:disabled,.filters button:disabled,.actions button:disabled { cursor: not-allowed; opacity: .85; }
+.miniChart,.chart { margin-block: 14px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--surface-page); }
+.miniChart svg { width: 100%; height: 120px; display: block; }
+.miniChart path,.chart path { stroke: var(--border-subtle); stroke-width: 1; }
+.miniChart polyline,.chart polyline { fill: none; stroke: var(--accent); stroke-width: 3; }
+.miniChart small { color: var(--text-secondary); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 12px; margin-top: 14px; color: var(--text-secondary); font-size: 13px; }
+.filters { display: grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap: 10px; align-items: end; padding: 14px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--surface-card); margin-bottom: 14px; }
+.filters label { display: grid; gap: 4px; color: var(--text-secondary); font-size: 13px; }
+.previewLabel { color: var(--text-secondary); font-size: 13px; }
+.tableWrap { overflow-x: auto; }
+.tableWrap table { width: 100%; border-collapse: collapse; text-align: left; }
+.tableWrap th,.tableWrap td { padding: 10px 8px; border-bottom: 1px solid var(--border-subtle); }
+.tableWrap th { font-size: 12px; color: var(--text-secondary); }
+.chart svg { width: 100%; height: 240px; display: block; margin-block: 12px; }
+@media(max-width:720px) { .twoCol { grid-template-columns: 1fr; } .tableWrap table { min-width: 520px; } }
+@media (max-width: 600px) { .aside { align-items: flex-start; } .aside a { margin-inline-start: 0; width: 100%; } .chart svg { min-height: 170px; } }
+
+.legTable caption{text-align:left;color:var(--text-secondary);padding:8px 0}.legTable input{min-width:60px;width:100%;max-width:110px}@media(max-width:767px){.legTable,.legTable tbody{display:block;min-width:0}.legTable thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.legTable tr{display:grid;grid-template-columns:1fr;gap:4px;border:1px solid var(--border-subtle);border-radius:6px;margin:8px 0;padding:8px}.legTable td{display:grid;grid-template-columns:85px minmax(0,1fr);align-items:center;padding:6px;border:0}.legTable td::before{content:attr(data-label);font-weight:600;color:var(--text-secondary)}}
+
+.chart svg{height:320px;min-height:320px}@media(max-width:767px){.chart svg{height:260px;min-height:260px}.tableWrap .legTable{min-width:0}.twoCol button,.filters button,.actions button,.twoCol input,.twoCol select{min-height:44px}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}

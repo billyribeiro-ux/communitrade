@@ -1,0 +1,248 @@
+# Operator-input deployment reference. Do not sync until required domains,
+# credentials, approvals, database roles, and recovery gates are supplied.
+# This file intentionally lives outside the repository root so Render does not
+# discover and apply it automatically.
+services:
+  - type: web
+    name: options-trade-ideas-api
+    runtime: docker
+    dockerfilePath: infra/production/api.Dockerfile
+    dockerContext: .
+    plan: 1c-2g
+    autoDeployTrigger: 'off'
+    maxShutdownDelaySeconds: 120
+    healthCheckPath: /api/v1/health/ready
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RELEASE_MODE
+        value: production
+      - key: STORAGE_DRIVER
+        value: r2
+      - key: MARKET_DATA_PROVIDER
+        value: databento
+      - key: BILLING_PROVIDER
+        value: stripe
+      - key: BILLING_MODE
+        value: live
+      - key: BILLING_LIVE_APPROVED
+        value: "false"
+      - key: BACKUP_POLICY_REVIEWED
+        sync: false
+      - key: DEPLOYMENT_REVISION
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: APP_ORIGIN
+        sync: false
+      - key: WEB_ORIGIN
+        sync: false
+      - key: OIDC_ISSUER
+        sync: false
+      - key: OIDC_CLIENT_ID
+        sync: false
+      - key: OIDC_CLIENT_SECRET
+        sync: false
+      - key: OIDC_REDIRECT_URI
+        sync: false
+      - key: OIDC_ACCOUNT_URL
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: DATA_ENCRYPTION_KEY
+        sync: false
+      - key: PRIVACY_SUPPRESSION_KEY
+        sync: false
+      - key: TRUSTED_INGRESS_SECRET
+        sync: false
+      - key: PUBLICATION_RENDER_HMAC_SECRET
+        sync: false
+      - key: TERMS_VERSION
+        sync: false
+      - key: SUPPORT_CONTACT_EMAIL
+        sync: false
+      - key: SUPPORT_CONTACT_MONITORED
+        sync: false
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_BUCKET
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_TIMEOUT_MS
+        value: "15000"
+      - key: DATABENTO_API_KEY
+        sync: false
+      - key: DATABENTO_DELAY_SECONDS
+        sync: false
+      - key: DATABENTO_STOCK_DATASET
+        sync: false
+      - key: DATABENTO_OPTION_DATASET
+        sync: false
+      - key: DATABENTO_FUTURE_DATASET
+        sync: false
+      - key: DATABENTO_SCHEMAS
+        sync: false
+      - key: DATABENTO_APPROVED_CAPABILITIES
+        sync: false
+      - key: DATABENTO_CALENDAR_CONFIG
+        sync: false
+      - key: BILLING_PROVIDER_ACCOUNT_ID
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_PRICE_PRO_MONTH
+        sync: false
+      - key: STRIPE_PRICE_PRO_YEAR
+        sync: false
+      - key: STRIPE_BILLING_PORTAL_CONFIGURATION_ID
+        sync: false
+      - key: STRIPE_TAX_CONFIGURED
+        sync: false
+      - key: BILLING_PROVIDER_TIMEOUT_MS
+        value: "5000"
+      - key: EMAIL_FROM
+        sync: false
+      - key: EMAIL_FROM_VERIFIED
+        sync: false
+      - key: SMTP_HOST
+        value: smtp.resend.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_TLS
+        value: "true"
+      - key: SMTP_USER
+        value: resend
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: RESEND_WEBHOOK_SECRET
+        sync: false
+      - key: PORT
+        value: "10000"
+
+  - type: worker
+    name: options-trade-ideas-worker
+    runtime: docker
+    dockerfilePath: infra/production/worker.Dockerfile
+    dockerContext: .
+    plan: 1c-2g
+    autoDeployTrigger: 'off'
+    maxShutdownDelaySeconds: 120
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RELEASE_MODE
+        value: production
+      - key: STORAGE_DRIVER
+        value: r2
+      - key: MARKET_DATA_PROVIDER
+        value: databento
+      - key: BILLING_PROVIDER
+        value: stripe
+      - key: BILLING_MODE
+        value: live
+      - key: BILLING_PROVIDER_ACCOUNT_ID
+        sync: false
+      - key: BACKUP_POLICY_REVIEWED
+        sync: false
+      - key: DEPLOYMENT_REVISION
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: DATA_ENCRYPTION_KEY
+        sync: false
+      - key: PRIVACY_SUPPRESSION_KEY
+        sync: false
+      - key: TRUSTED_INGRESS_SECRET
+        sync: false
+      - key: PUBLICATION_RENDER_HMAC_SECRET
+        sync: false
+      - key: PUBLICATION_API_BASE_URL
+        sync: false
+      - key: PUBLICATION_RENDER_BASE_URL
+        sync: false
+      - key: APP_ORIGIN
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: EMAIL_FROM_VERIFIED
+        sync: false
+      - key: SMTP_HOST
+        value: smtp.resend.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_TLS
+        value: "true"
+      - key: SMTP_USER
+        value: resend
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_BUCKET
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_TIMEOUT_MS
+        value: "15000"
+
+  - type: web
+    name: options-trade-ideas-identity
+    runtime: docker
+    dockerfilePath: infra/production/identity.Dockerfile
+    dockerContext: .
+    plan: 0.5c-512mb
+    autoDeployTrigger: 'off'
+    maxShutdownDelaySeconds: 120
+    healthCheckPath: /realms/master
+    dockerCommand: /opt/keycloak/bin/kc.sh start --optimized
+    envVars:
+      - key: KC_DB
+        value: postgres
+      - key: KC_DB_URL
+        sync: false
+      - key: KC_DB_USERNAME
+        value: keycloak_app
+      - key: KC_DB_PASSWORD
+        sync: false
+      - key: KC_HOSTNAME
+        sync: false
+      - key: KC_HOSTNAME_STRICT
+        value: "true"
+      - key: KC_PROXY_HEADERS
+        value: xforwarded
+      - key: KC_HTTP_ENABLED
+        value: "true"
+      - key: KC_HTTP_PORT
+        value: "10000"
+      - key: KC_HEALTH_ENABLED
+        value: "true"
+      - key: KC_METRICS_ENABLED
+        value: "true"
+      - key: KC_BOOTSTRAP_ADMIN_USERNAME
+        sync: false
+      - key: KC_BOOTSTRAP_ADMIN_PASSWORD
+        sync: false
+
+databases:
+  - name: options-trade-ideas-app-db
+    databaseName: trading_prod
+    user: trading_bootstrap
+    postgresMajorVersion: "18"
+    plan: 0.5c-1g
+    ipAllowList: []
+
+  - name: options-trade-ideas-identity-db
+    databaseName: keycloak_prod
+    user: identity_bootstrap
+    postgresMajorVersion: "18"
+    plan: 0.5c-1g
+    ipAllowList: []

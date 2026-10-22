@@ -1,0 +1,84 @@
+name: Application checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:18.6@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_DB: options_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d options_ci"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql://postgres:ci-only-password@localhost:5432/options_ci?schema=public
+      TEST_DATABASE_URL: postgresql://postgres:ci-only-password@localhost:5432/options_ci?schema=public
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5 tag resolved 2026-10-19
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5 tag resolved 2026-10-19
+        with:
+          node-version: '24.22.0'
+      - name: Activate pinned pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.14.0 --activate
+          pnpm --version
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Review production dependencies and source patterns
+        run: |
+          pnpm audit --prod --audit-level=high
+          pnpm check:p14:source
+      - name: Verify release preflight redaction and artifact parsers
+        run: pnpm test:release
+      - name: Generate Prisma client
+        run: pnpm db:generate
+      - name: Apply migrations and seed PostgreSQL
+        run: |
+          pnpm db:migrate
+          pnpm db:seed
+          pnpm db:seed
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Validate OpenAPI, chart schema and generated client drift
+        run: pnpm check:contracts
+      - name: Test
+        run: pnpm test
+      - name: Build
+        run: pnpm build
+      - name: Verify P03 release and nonlocal fixture boundaries
+        run: pnpm test:p03:boundaries
+      - name: Verify immutable migration history
+        run: pnpm check:migrations
+      - name: Compile pinned Keycloak credential-revocation provider
+        run: docker build -f infra/keycloak/Dockerfile -t trading-keycloak-ci .
+      - name: Build nonroot production images (no push)
+        run: |
+          docker build -f infra/production/api.Dockerfile -t trading-api-ci .
+          docker build -f infra/production/worker.Dockerfile -t trading-worker-ci .
+          docker build -f infra/production/identity.Dockerfile -t trading-identity-ci .
+      - name: Report release gates (does not deploy)
+        run: pnpm check:p14:release
+      - name: Check documentation integrity
+        run: pnpm check:docs

@@ -1,0 +1,6 @@
+import { notFound, redirect } from "next/navigation";
+import { apiFetch } from "@/lib/server-api";
+import { SupportRequest, type Ticket } from "../../SupportRequest";
+import styles from "../../support-ui.module.css";
+export const metadata={title:"Private support request",robots:{index:false,follow:false}};
+export default async function SupportRequestPage({params}:{params:Promise<{id:string}>}){const{id}=await params;if(!/^[0-9a-f-]{36}$/i.test(id))notFound();const[me,result]=await Promise.all([apiFetch<{csrfToken:string}>("/me"),apiFetch<Ticket>(`/support/${encodeURIComponent(id)}`)]);if(!me.ok&&(me.reason==="missing-session"||me.response?.status===401))redirect(`/login?returnTo=${encodeURIComponent(`/support/requests/${id}`)}`);if(!me.ok)return <main className={styles.root}><h1>Support request unavailable</h1><p role="alert">Sign in with the account email used for this request to view or claim it.</p></main>;if(!result.ok&&result.response?.status===404)notFound();if(!result.ok)return <main className={styles.root}><h1>Support request unavailable</h1><p role="alert">The support service did not return this request. Refresh to retry.</p></main>;return <SupportRequest csrfToken={me.data.csrfToken} ticket={result.data}/>}

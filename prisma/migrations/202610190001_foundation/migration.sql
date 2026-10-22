@@ -1,0 +1,5 @@
+CREATE TABLE "foundation_probe" (
+  "id" TEXT PRIMARY KEY,
+  "label" TEXT NOT NULL,
+  "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

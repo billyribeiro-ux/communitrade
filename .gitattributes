@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+
+# Preserve exact upstream notice bytes, including their original line endings.
+third-party/** -text whitespace=cr-at-eol
+*.tar.gz binary
+# Markdown's intentional two-space hard breaks are not formatting errors.
+*.md whitespace=-blank-at-eol

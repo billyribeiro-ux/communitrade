@@ -1,0 +1,24 @@
+{
+  "name": "@trading/media",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm build && node --test test/*.test.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./snapshot-token": {
+      "types": "./dist/snapshot-token.d.ts",
+      "import": "./dist/snapshot-token.js"
+    }
+  },
+  "dependencies": {
+    "sharp": "0.35.5"
+  }
+}

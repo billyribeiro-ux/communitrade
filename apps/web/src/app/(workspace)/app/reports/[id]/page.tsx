@@ -1,0 +1,7 @@
+import { notFound, redirect } from "next/navigation";
+import { apiFetch } from "@/lib/server-api";
+import { ReportCase } from "../ReportCase";
+import styles from "../report.module.css";
+export const metadata={title:"Private report case",robots:{index:false,follow:false}};
+type Report={id:string;status:string;createdAt:string;reason:string;decision:string|null;resourceType?:string;detail?:string;appeals?:Array<{id:string;reason:string;status:string;createdAt:string}>};
+export default async function ReportPage({params}:{params:Promise<{id:string}>}){const{id}=await params;if(!/^[0-9a-f-]{36}$/i.test(id))notFound();const[me,result]=await Promise.all([apiFetch<{csrfToken:string}>("/me"),apiFetch<Report>(`/reports/${encodeURIComponent(id)}`)]);if(!me.ok&&(me.reason==="missing-session"||me.response?.status===401))redirect(`/login?returnTo=${encodeURIComponent(`/app/reports/${id}`)}`);if(result.response?.status===404)notFound();return <main className={styles.page}><p className={styles.eyebrow}>PRIVATE · REPORT REVIEW</p><h1>Case status</h1><p className={styles.intro}>This case is visible to you and assigned staff. It does not reveal other reporters or private staff notes.</p>{!me.ok||!result.ok?<section className={styles.empty} role="alert"><h2>Case unavailable</h2><p>The report service could not return this case. Refresh to retry.</p></section>:<ReportCase csrfToken={me.data.csrfToken} report={result.data}/>}</main>}

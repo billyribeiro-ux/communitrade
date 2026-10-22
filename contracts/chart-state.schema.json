@@ -1,0 +1,500 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:trading-community:chart-state:1",
+  "title": "ChartState",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "instrumentId",
+    "metadataVersion",
+    "interval",
+    "timezone",
+    "session",
+    "adjustment",
+    "viewport",
+    "indicators",
+    "provenance",
+    "drawings"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "instrumentId": {
+      "$ref": "#/$defs/Uuid"
+    },
+    "metadataVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "interval": {
+      "enum": [
+        "1m",
+        "5m",
+        "15m",
+        "1h",
+        "1d"
+      ]
+    },
+    "timezone": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "session": {
+      "enum": [
+        "regular",
+        "exchange"
+      ]
+    },
+    "adjustment": {
+      "enum": [
+        "unadjusted",
+        "split-adjusted",
+        "supplier-defined"
+      ]
+    },
+    "viewport": {
+      "$ref": "#/$defs/Viewport"
+    },
+    "indicators": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/Indicator"
+      }
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "drawings": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "$ref": "#/$defs/Drawing"
+      }
+    }
+  },
+  "$defs": {
+    "Uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "Decimal": {
+      "type": "string",
+      "pattern": "^-?[0-9]{1,18}(\\.[0-9]{1,10})?$"
+    },
+    "UtcTime": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "Anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "time",
+        "price"
+      ],
+      "properties": {
+        "time": {
+          "$ref": "#/$defs/UtcTime"
+        },
+        "price": {
+          "$ref": "#/$defs/Decimal"
+        }
+      }
+    },
+    "Style": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "color",
+        "lineWidth",
+        "lineStyle",
+        "fillOpacity"
+      ],
+      "properties": {
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "lineWidth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "lineStyle": {
+          "enum": [
+            "solid",
+            "dashed",
+            "dotted"
+          ]
+        },
+        "fillOpacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "Viewport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "to"
+      ],
+      "properties": {
+        "from": {
+          "$ref": "#/$defs/UtcTime"
+        },
+        "to": {
+          "$ref": "#/$defs/UtcTime"
+        }
+      }
+    },
+    "Indicator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "period",
+        "color"
+      ],
+      "properties": {
+        "kind": {
+          "const": "ema"
+        },
+        "period": {
+          "enum": [
+            20,
+            50,
+            200
+          ]
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        }
+      }
+    },
+    "Provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "asOf",
+        "delaySeconds",
+        "demo"
+      ],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "asOf": {
+          "$ref": "#/$defs/UtcTime"
+        },
+        "delaySeconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "demo": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Drawing": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "anchors",
+            "style"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/Uuid"
+            },
+            "type": {
+              "const": "horizontal"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "$ref": "#/$defs/Anchor"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/Style"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "anchors",
+            "style"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/Uuid"
+            },
+            "type": {
+              "const": "trendline"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "$ref": "#/$defs/Anchor"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/Style"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "anchors",
+            "style"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/Uuid"
+            },
+            "type": {
+              "const": "rectangle"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "$ref": "#/$defs/Anchor"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/Style"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "anchors",
+            "style"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/Uuid"
+            },
+            "type": {
+              "const": "arrow"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "$ref": "#/$defs/Anchor"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/Style"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "anchors",
+            "style",
+            "text"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/Uuid"
+            },
+            "type": {
+              "const": "text"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "$ref": "#/$defs/Anchor"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/Style"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "anchors",
+            "style",
+            "planField"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/Uuid"
+            },
+            "type": {
+              "const": "entry"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "$ref": "#/$defs/Anchor"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/Style"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "planField": {
+              "enum": [
+                "entryUnderlying"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "anchors",
+            "style",
+            "planField"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/Uuid"
+            },
+            "type": {
+              "const": "target"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "$ref": "#/$defs/Anchor"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/Style"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "planField": {
+              "enum": [
+                "targetUnderlying1",
+                "targetUnderlying2",
+                "targetUnderlying3"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "anchors",
+            "style",
+            "planField"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/Uuid"
+            },
+            "type": {
+              "const": "invalidation"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "$ref": "#/$defs/Anchor"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/Style"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "planField": {
+              "enum": [
+                "invalidationUnderlying"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

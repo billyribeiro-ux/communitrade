@@ -1,0 +1,158 @@
+{
+  "result": "PASS",
+  "database": "p14_load_a3016fcf0c7741a78a28",
+  "thresholdChecks": {
+    "plainFeed": {
+      "maximumP95Ms": 750,
+      "minimumSamples": 40,
+      "passed": true
+    },
+    "publicationSearch": {
+      "maximumP95Ms": 1000,
+      "minimumSamples": 20,
+      "passed": true
+    },
+    "chartHistory": {
+      "maximumP95Ms": 750,
+      "minimumSamples": 20,
+      "passed": true
+    },
+    "authenticatedPrivateRead": {
+      "maximumP95Ms": 750,
+      "minimumSamples": 10,
+      "passed": true
+    },
+    "authenticatedPrivateWrite": {
+      "maximumP95Ms": 750,
+      "minimumSamples": 10,
+      "passed": true
+    },
+    "sessionAuthentication": {
+      "maximumP95Ms": 750,
+      "minimumSamples": 100,
+      "passed": true
+    }
+  },
+  "report": {
+    "fixture": {
+      "accounts": 5000,
+      "syntheticAccounts": 5000,
+      "monthlyActiveAccounts": 1000,
+      "concurrentSessions": 100,
+      "sessionRows": 1000,
+      "publications": 50000,
+      "comments": 250000,
+      "positions": 50000,
+      "pendingPublicPositions": 50000,
+      "positionLegs": 25000,
+      "positionEvents": 0,
+      "outcomes": 0,
+      "assetDistribution": {
+        "stock": 20000,
+        "future": 15000,
+        "option": 15000
+      },
+      "optionStrategyDistribution": {
+        "long_call": 2500,
+        "long_put": 2500,
+        "bull_call_debit": 2500,
+        "bear_put_debit": 2500,
+        "bull_put_credit": 2500,
+        "bear_call_credit": 2500
+      },
+      "positionStrategyDistribution": {
+        "future:long": 15000,
+        "option:bear_call_credit": 2500,
+        "option:bear_put_debit": 2500,
+        "option:bull_call_debit": 2500,
+        "option:bull_put_credit": 2500,
+        "option:long_call": 2500,
+        "option:long_put": 2500,
+        "stock:long": 20000
+      },
+      "seededReferences": {
+        "stock": 1,
+        "futures": 4,
+        "options": 12,
+        "hydratedTemplates": 11
+      },
+      "syntheticRightsPreflight": "passed_existing_seed_rows_only"
+    },
+    "measurements": {
+      "poolMax": 8,
+      "apiConfiguredPoolMax": 8,
+      "concurrentAuthenticatedRequests": 100,
+      "concurrentMix": {
+        "plainFeedPercent": 40,
+        "publicationSearchPercent": 20,
+        "chartHistoryPercent": 20,
+        "privateReadPercent": 10,
+        "privateWritePercent": 10
+      },
+      "serviceWriteCount": 100,
+      "serviceWriteElapsedMs": 91.26808299999902,
+      "mixedServiceElapsedMs": 485.8845419999998,
+      "requestDurationMs": {
+        "sessionAuthentication": {
+          "p50": 19.91895900000054,
+          "p95": 22.903542000000016,
+          "samples": 100
+        },
+        "privateRead": {
+          "p50": 0.6909579999992275,
+          "p95": 1.3653329999997368,
+          "samples": 2
+        },
+        "privateWrite": {
+          "p50": 54.450958999999784,
+          "p95": 86.93441699999858,
+          "samples": 100
+        },
+        "plainFeed": {
+          "p50": 462.23925000000054,
+          "p95": 463.6022919999996,
+          "samples": 40
+        },
+        "publicationSearch": {
+          "p50": 462.2417920000007,
+          "p95": 463.9722500000007,
+          "samples": 21
+        },
+        "chartHistory": {
+          "p50": 268.8887500000001,
+          "p95": 298.34270900000047,
+          "samples": 20
+        },
+        "authenticatedPrivateRead": {
+          "p50": 274.4001669999998,
+          "p95": 302.80495900000096,
+          "samples": 10
+        },
+        "authenticatedPrivateWrite": {
+          "p50": 132.70620800000142,
+          "p95": 226.24562499999956,
+          "samples": 10
+        }
+      },
+      "poolCheckoutWaitMs": {
+        "writeBatch": {
+          "p50": 50.60858399999961,
+          "p95": 71.20683300000019,
+          "samples": 100
+        },
+        "concurrentMix": {
+          "p50": 4.570083000000523,
+          "p95": 101.54824999999983,
+          "samples": 2390
+        }
+      },
+      "searchResultCount": 20,
+      "privateIsolation": "passed",
+      "thresholds": {
+        "ordinaryServiceP95Ms": 750,
+        "searchServiceP95Ms": 1000
+      }
+    },
+    "scope": "local API service + PostgreSQL timings using the API-configured pool; no browser LCP or production capacity claim"
+  }
+}

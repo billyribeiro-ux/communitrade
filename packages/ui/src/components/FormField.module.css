@@ -1,0 +1,10 @@
+.field { display: grid; min-width: 0; gap: 7px; }
+.label { color: var(--text-primary); font-weight: 600; }
+.required { color: var(--negative); }
+.field :global(input), .field :global(select), .field :global(textarea) { width: 100%; min-width: 0; min-height: 40px; padding: 9px 11px; border: 1px solid var(--border-subtle); border-radius: 6px; color: var(--text-primary); background: var(--surface-card); font: inherit; }
+.field :global(textarea) { min-height: 96px; resize: vertical; }
+.field :global([aria-invalid="true"]) { border-color: var(--negative); }
+.meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; color: var(--text-secondary); font-size: 12px; }
+.error { color: var(--negative); }
+.count { margin-inline-start: auto; font-variant-numeric: tabular-nums; }
+@media (max-width: 767px) { .field :global(input), .field :global(select) { min-height: 44px; } }

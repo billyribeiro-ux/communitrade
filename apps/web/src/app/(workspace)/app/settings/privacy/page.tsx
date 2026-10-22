@@ -1,0 +1,8 @@
+import { redirect } from "next/navigation";
+import { apiFetch } from "@/lib/server-api";
+import { PrivacyManager } from "./PrivacyManager";
+import styles from "../../reports/report.module.css";
+export const metadata={title:"Privacy and data",robots:{index:false,follow:false}};
+type Request={id:string;type?:string;kind?:string;status:string;requestedAt?:string;createdAt?:string;dueAt?:string;hold?:{reason:string;until:string}|null;completedAt?:string|null};
+type Export={id:string;kind:string;status:string;createdAt:string;expiresAt:string|null;failureCode:string|null;downloadUrl:string|null};
+export default async function PrivacyPage(){const[me,requests,exports]=await Promise.all([apiFetch<{csrfToken:string;entitlement?:{plan?:string}}>("/me"),apiFetch<{items:Request[];nextCursor:string|null}>("/privacy/requests?limit=20"),apiFetch<{items:Export[];nextCursor:string|null}>("/exports?limit=20")]);if(!me.ok&&(me.reason==="missing-session"||me.response?.status===401))redirect("/login?returnTo=%2Fapp%2Fsettings%2Fprivacy");return <main className={styles.page}><p className={styles.eyebrow}>PRIVATE ACCOUNT · DATA RIGHTS</p><h1>Privacy and data</h1><p className={styles.intro}>Request and track private account exports or deletion. Staff access to a specific private resource requires your request and a named, time-limited approval.</p>{!me.ok||!requests.ok||!exports.ok?<section className={styles.empty} role="alert"><h2>Privacy service unavailable</h2><p>Your current records were not loaded. Refresh to retry; no request was submitted.</p></section>:<PrivacyManager csrfToken={me.data.csrfToken} requests={requests.data.items} exports={exports.data.items} hasActivePro={me.data.entitlement?.plan==="pro"}/>}</main>}

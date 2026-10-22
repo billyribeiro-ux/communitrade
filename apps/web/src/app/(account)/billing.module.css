@@ -1,0 +1,14 @@
+.notice { display: flex; align-items: flex-start; gap: 12px; margin-block: 18px; padding: 16px; border: 1px solid var(--border-subtle); border-radius: 10px; color: var(--text-primary); background: var(--surface-raised); }
+.notice > svg { flex: none; color: var(--accent); }
+.notice p { margin: 5px 0 0; color: var(--text-secondary); }
+.entryAction { margin-block-start: 20px; }
+.primary { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 44px; padding: 10px 16px; border: 1px solid var(--accent); border-radius: 6px; color: var(--on-accent); background: var(--accent); font: inherit; font-weight: 700; cursor: pointer; }
+.primary:hover { filter: brightness(1.08); }
+.primary:disabled { cursor: wait; opacity: .75; }
+.primary:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+.entryAction > p, .subtle { color: var(--text-secondary); font-size: 13px; }
+.error { display: flex; align-items: flex-start; gap: 8px; padding: 12px; border: 1px solid var(--negative); border-radius: 6px; color: var(--negative); }
+.error svg { flex: none; }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; } }

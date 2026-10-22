@@ -1,0 +1,93 @@
+{
+  "observedAt": "2026-10-22T16:36:16.179266+00:00",
+  "gitRevision": null,
+  "scope": "local engineering evidence; not a deployment or release approval",
+  "runtimeSourceFingerprint": {
+    "algorithm": "SHA-256 over sorted relative path + NUL + bytes + NUL",
+    "sha256": "d1659962b3507c10e6b89ec06aab15b735fe5b37703aada3e9cc3708547e773b",
+    "files": 382,
+    "excludes": "tests, engineering scripts, generated Prisma, build/dependency directories and private environment data"
+  },
+  "freshDatabaseSuite": {
+    "tests": 372,
+    "passed": 372,
+    "failed": 0,
+    "skipped": 0,
+    "migrations": 25,
+    "models": 78,
+    "repeatSeed": true,
+    "migrationChecksums": true
+  },
+  "contracts": {
+    "operations": 158,
+    "schemas": 146
+  },
+  "lintTypecheckBuild": "passed",
+  "advisoryCheck": "No known vulnerabilities found; not a security certification",
+  "connectedDrivers": [
+    "P03 HTTP (89 checks; two optional credential branches unrun)",
+    "P04 real local identity/profile/media",
+    "P04 actual credential revocation and offline rollback",
+    "P05 HTTP and live",
+    "P06 HTTP and live",
+    "P07 live",
+    "P08 live: 17 initial snapshots and correction recapture",
+    "P09 live",
+    "P10 live",
+    "P11 live",
+    "P12 live fake provider",
+    "P13 live",
+    "9 local smoke checks"
+  ],
+  "optimizedNonceCspRepeat": {
+    "drivers": [
+      "P09",
+      "P11",
+      "P12"
+    ],
+    "result": "passed",
+    "trustedProductCapture": true,
+    "manualBrowserAcceptance": false,
+    "developmentWebRestored": true
+  },
+  "images": {
+    "api": "sha256:5d5b999207a1a28fb84dcf826c55ef898c97c93d72feeef045a8e7120a0615e6",
+    "worker": "sha256:3d557d69eccbd159ce9fccc15b339829308cc29577f7dc898f4f79e7102a24f4",
+    "identity": "sha256:314026041f31dccfdd81a14e8e40ed88dd634d5536f47d920f3235eab4112f0a",
+    "pushed": false
+  },
+  "roleProof": "passed isolated; runtime DDL/truncate denied; individual current/default privileges verified",
+  "outageRestartDrill": "passed with existing volumes preserved",
+  "operationalCounters": {
+    "status": "ok",
+    "metrics": {
+      "heartbeat_age_seconds": 14,
+      "aged_snapshots": 0,
+      "uncertain_deliveries": 0,
+      "uncertain_billing": 0,
+      "failed_privacy": 0
+    },
+    "containsPrivatePayloads": false
+  },
+  "generatedFixtureCleanup": {
+    "remainingDatabases": 0,
+    "remainingRoles": 0
+  },
+  "performanceArtifact": "service-load-mixed.json",
+  "recoveryArtifact": "recovery.json",
+  "releaseDecision": "NO_GO",
+  "openGates": [
+    "G01",
+    "G02",
+    "G03",
+    "G04",
+    "G05",
+    "G06",
+    "G07",
+    "G08",
+    "G09",
+    "G10",
+    "G11",
+    "G12"
+  ]
+}

@@ -1,0 +1,6 @@
+.status { display: inline-flex; align-items: center; gap: 8px; width: fit-content; padding: 5px 10px; border: 1px solid var(--border-subtle); border-radius: 999px; color: var(--text-secondary); font-size: 12px; font-weight: 600; }
+.dot { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; background: currentColor; }
+.positive { color: var(--positive); }
+.warning { color: var(--warning); }
+.negative { color: var(--negative); }
+.label { color: var(--text-secondary); font-weight: 500; }

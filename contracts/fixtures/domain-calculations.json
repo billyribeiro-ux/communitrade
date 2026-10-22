@@ -1,0 +1,28 @@
+{
+  "fixtureSetVersion": 1,
+  "synthetic": true,
+  "calculationVersion": "1",
+  "asOf": "2026-10-19T14:00:00.000Z",
+  "cases": [
+    {"id":"stock-long-costs","asset":"stock","strategy":"long","entry":"100","quantity":10,"stop":"95","exits":[{"quantity":10,"price":"105"}],"entryCosts":"1","exitCosts":"1","gross":"50","net":"48","initialRisk":"50","r":"0.96","eligible":true},
+    {"id":"stock-short-costs","asset":"stock","strategy":"short","entry":"100","quantity":10,"stop":"105","exits":[{"quantity":10,"price":"95"}],"entryCosts":"1","exitCosts":"1","borrowCosts":"0","gross":"50","net":"48","initialRisk":"50","r":"0.96","borrowCoverage":"included"},
+    {"id":"long-call","asset":"option","strategy":"long_call","entry":"1.50","quantity":2,"multiplier":"100","exits":[{"quantity":2,"price":"2.00"}],"entryCosts":"0","exitCosts":"0","gross":"100","net":"100","initialRisk":"300"},
+    {"id":"long-put","asset":"option","strategy":"long_put","entry":"2.00","quantity":1,"strike":"100","multiplier":"100","exits":[{"quantity":1,"price":"2.50"}],"entryCosts":"0","exitCosts":"0","gross":"50","initialRisk":"200","maxExpiryProfit":"9800"},
+    {"id":"bull-call-debit-100-105","asset":"option","strategy":"bull_call_debit","entry":"1.50","quantity":1,"multiplier":"100","legs":[["long","100"],["short","105"]],"entryCosts":"0","exitCosts":"0","maxLoss":"150","maxProfit":"350","expirySpot":"110","expiryGrossPnl":"350"},
+    {"id":"bear-put-debit","asset":"option","strategy":"bear_put_debit","entry":"1.25","quantity":1,"multiplier":"100","legs":[["long","105"],["short","100"]],"entryCosts":"0","exitCosts":"0","maxLoss":"125","maxProfit":"375","expirySpot":"90","expiryGrossPnl":"375"},
+    {"id":"bull-put-credit","asset":"option","strategy":"bull_put_credit","entry":"1.20","quantity":1,"multiplier":"100","legs":[["short","105"],["long","100"]],"entryCosts":"0","exitCosts":"0","maxLoss":"380","maxProfit":"120","expirySpot":"110","expiryGrossPnl":"120"},
+    {"id":"bear-call-credit","asset":"option","strategy":"bear_call_credit","entry":"1.20","quantity":1,"multiplier":"100","legs":[["short","100"],["long","105"]],"entryCosts":"0","exitCosts":"0","maxLoss":"380","maxProfit":"120","expirySpot":"90","expiryGrossPnl":"120"},
+    {"id":"mes-long","asset":"future","strategy":"long","entry":"5000","quantity":1,"multiplier":"5","tickSize":"0.25","stop":"4999","exits":[{"quantity":1,"price":"5001"}],"entryCosts":"0","exitCosts":"0","gross":"5","initialRisk":"5"},
+    {"id":"nq-short","asset":"future","strategy":"short","entry":"20000","quantity":1,"multiplier":"20","tickSize":"0.25","stop":"20001","exits":[{"quantity":1,"price":"19999"}],"entryCosts":"0","exitCosts":"0","gross":"20","initialRisk":"20"},
+    {"id":"es-reference","asset":"future","root":"ES","multiplier":"50","tickSize":"0.25","entry":"5000.25","priceIncrementValid":true},
+    {"id":"mnq-reference","asset":"future","root":"MNQ","multiplier":"2","tickSize":"0.25","entry":"20000.25","priceIncrementValid":true},
+    {"id":"partial-exits-single-position","asset":"stock","strategy":"long","entry":"10","quantity":10,"stop":"9","exits":[{"quantity":4,"price":"11"},{"quantity":6,"price":"9.3333333333"}],"entryCosts":"0","exitCosts":"0","gross":"-0.0000000002","completePositionCount":1},
+    {"id":"breakeven-cost-adjusted","asset":"stock","strategy":"long","entry":"10","quantity":1,"stop":"9","exits":[{"quantity":1,"price":"10.25"}],"entryCosts":"0.125","exitCosts":"0.125","gross":"0.25","net":"0"},
+    {"id":"missing-cost-is-null","asset":"stock","strategy":"long","entry":"10","quantity":1,"stop":"9","exits":[{"quantity":1,"price":"11"}],"entryCosts":null,"exitCosts":"0","net":null,"costComplete":false},
+    {"id":"expired-unresolved","state":"unresolved","resolution":null,"net":null,"eligible":false,"exclusion":"unresolved"},
+    {"id":"retrospective-entry","publishedAt":"2026-10-19T13:00:00Z","entryClaimedAt":"2026-10-19T13:10:00Z","entryReceivedAt":"2026-10-19T13:16:00Z","eligible":false,"exclusion":"reported_after_five_minutes"},
+    {"id":"duplicate-submission","key":"fixture-key-1","firstRequestHash":"hash-a","replayRequestHash":"hash-a","changedRequestHash":"hash-b","identicalOutcome":"replay","changedOutcome":"conflict"},
+    {"id":"metadata-correction-preserves-version","instrumentId":"fixture-mes","publicationMetadataVersion":1,"currentMetadataVersion":2,"sourceEventMetadataVersion":1,"frozenInitialRisk":"5","visibleCorrection":true,"overwriteOriginal":false,"recalculateWithVersion":"2","preserveFrozenRisk":"5","eligible":"manual_review"},
+    {"id":"rounding-conservation","values":["0.005","0.005","-0.010"],"expectedExactSum":"0.0000000000","roundOnlyAtDisplay":true}
+  ]
+}

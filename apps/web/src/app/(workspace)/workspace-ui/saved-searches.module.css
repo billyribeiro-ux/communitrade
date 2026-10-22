@@ -1,0 +1,23 @@
+.panel { display: grid; gap: 16px; padding: clamp(18px, 3vw, 26px); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--surface-card); }
+.panel header { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+.panel header > div { display: grid; gap: 5px; }
+.panel header > span { padding: 3px 9px; border: 1px solid var(--border-subtle); border-radius: 99px; color: var(--text-secondary); white-space: nowrap; }
+.panel h2,.panel h3,.panel p { margin: 0; }
+.panel header p:not(.kicker) { color: var(--text-secondary); }
+.kicker { color: var(--accent); font-size: 11px; font-weight: 750; letter-spacing: .1em; }
+.list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.list li { display: grid; grid-template-columns: minmax(150px,1fr) minmax(150px,.7fr) auto auto; align-items: center; gap: 8px; padding: 11px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); }
+.itemText { display: grid; gap: 3px; min-width: 0; }
+.itemText a { color: var(--text-primary); font-weight: 650; }
+.itemText small { color: var(--text-secondary); overflow-wrap: anywhere; }
+.rename,.form label { display: grid; gap: 4px; color: var(--text-secondary); font-size: 12px; }
+.rename input,.form input,.form select { width: 100%; min-height: 38px; padding: 6px 9px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); color: var(--text-primary); background: var(--surface-page); font: inherit; }
+.list button,.form button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 38px; padding: 6px 9px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); color: var(--text-primary); background: var(--surface-raised); font: inherit; font-weight: 600; cursor: pointer; }
+.list button:disabled,.form button:disabled { opacity: .6; cursor: not-allowed; }
+.form { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: end; gap: 10px; padding-top: 15px; border-top: 1px solid var(--border-subtle); }
+.form h3 { grid-column: 1/-1; }
+.form button,.form small { align-self: end; }
+.empty,.locked,.error,.notice { padding: 11px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); color: var(--text-secondary); }
+.error { color: var(--negative); }
+.notice { color: var(--positive); }
+@media(max-width:760px) { .list li { grid-template-columns: minmax(0,1fr); align-items: stretch; } .form { grid-template-columns: minmax(0,1fr); } .form h3 { grid-column: 1; } }

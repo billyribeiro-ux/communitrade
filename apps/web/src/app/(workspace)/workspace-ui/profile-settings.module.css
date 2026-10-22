@@ -1,0 +1,45 @@
+.columns { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr); align-items: start; gap: 18px; }
+.card { display: grid; gap: 14px; min-width: 0; padding: clamp(18px, 3vw, 26px); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--surface-card); }
+.card h2 { margin: 0; font-size: 19px; }
+.card h3 { margin: 0; font-size: 16px; }
+.card p { margin: 0; color: var(--text-secondary); line-height: 1.55; }
+.card > label { display: grid; gap: 6px; color: var(--text-primary); font-weight: 600; }
+.card > label small { color: var(--text-secondary); font-size: 12px; font-weight: 400; }
+.card input:not([type="checkbox"]):not([type="range"]),.card select,.card textarea { width: 100%; min-width: 0; min-height: 44px; padding: 9px 11px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); color: var(--text-primary); background: var(--surface-page); font: inherit; }
+.card textarea { resize: vertical; }
+.card input[type="range"] { width: 100%; accent-color: var(--accent); }
+.card input[type="checkbox"] { accent-color: var(--accent); }
+.card button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px; width: fit-content; max-width: 100%; padding: 8px 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); color: var(--text-primary); background: var(--surface-raised); font: inherit; font-weight: 600; cursor: pointer; }
+.card button:hover { border-color: var(--accent); }
+.card button:disabled { cursor: not-allowed; opacity: .65; }
+.card button[type="submit"] { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
+.card button:focus-visible,.card input:focus-visible,.card select:focus-visible,.card textarea:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.avatarLine,.publicHeader { display: flex; align-items: center; gap: 14px; }
+.avatarLine > div:last-child { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.avatarLine small { flex-basis: 100%; color: var(--text-secondary); font-size: 12px; }
+.cropBox { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--surface-page); }
+.cropPreview { width: min(100%, 280px); aspect-ratio: 1; overflow: hidden; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--surface-raised); }
+.cropPreview img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 100ms ease; }
+.cropBox > label { display: grid; gap: 5px; color: var(--text-primary); font-size: 14px; font-weight: 600; }
+.card fieldset { display: grid; grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); gap: 8px; min-width: 0; margin: 0; padding: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); }
+.card legend { padding-inline: 5px; color: var(--text-primary); font-weight: 650; }
+.check { display: flex; align-items: center; gap: 8px; min-height: 34px; color: var(--text-secondary); }
+.publicHeader strong { font-size: 16px; }
+.publicHeader p { margin-top: 3px; }
+.privateNote { padding-top: 12px; border-top: 1px solid var(--border-subtle); font-size: 13px; }
+.error,.success { padding: 10px 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); }
+.error { color: var(--negative) !important; }
+.success { color: var(--positive) !important; }
+.sessions { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.sessions li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); }
+.sessions li div { display: grid; gap: 4px; min-width: 0; }
+.sessions li span { color: var(--text-secondary); font-size: 13px; }
+
+@media (max-width: 850px) { .columns { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 520px) {
+  .avatarLine { align-items: flex-start; }
+  .avatarLine > div:last-child { align-items: stretch; flex-direction: column; }
+  .avatarLine small { flex-basis: auto; }
+  .sessions li { align-items: flex-start; flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) { .cropPreview img { transition: none; } }

@@ -1,0 +1,25 @@
+.wrapper { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+.button:disabled { cursor: not-allowed; opacity: .58; }
+.primary { color: var(--on-accent); background: var(--accent); }
+.primary:hover:not(:disabled) { filter: brightness(1.08); }
+.secondary { color: var(--text-primary); background: var(--surface-raised); border-color: var(--border-subtle); }
+.secondary:hover:not(:disabled) { border-color: var(--accent); }
+.text { color: var(--accent); background: transparent; }
+.text:hover:not(:disabled) { background: var(--surface-raised); }
+.destructive { color: var(--on-accent); background: var(--negative); }
+.reason { max-width: 28rem; color: var(--text-secondary); font-size: 12px; }
+.spinner { width: 14px; height: 14px; margin-inline-end: 8px; display: inline-block; vertical-align: -2px; border: 2px solid currentColor; border-inline-end-color: transparent; border-radius: 50%; animation: spin 700ms linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .button { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; border-inline-end-color: currentColor; } }
+@media (max-width: 767px) { .button { min-height: 44px; } }

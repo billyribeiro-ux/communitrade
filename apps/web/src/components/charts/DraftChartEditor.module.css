@@ -1,0 +1,14 @@
+.editor { max-width: 1280px; min-width: 0; margin-inline: auto; padding: 24px; color: var(--text-primary); }
+.editor h1 { font-size: clamp(24px,4vw,36px); margin-block: 6px 12px; overflow-wrap: anywhere; }
+.eyebrow { font-size: 12px; letter-spacing: .07em; color: var(--text-secondary); }
+.panel { min-width: 0; margin-block: 16px; padding: 16px; border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--surface-card); }
+.notice { border-inline-start: 3px solid var(--accent); padding: 12px; background: var(--surface-raised); overflow-wrap: anywhere; }
+.editor label { display: flex; flex-direction: column; gap: 6px; margin-block: 8px; min-width: 0; }
+.editor input,.editor textarea,.editor select,.editor button { min-height: 44px; max-width: 100%; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--surface-raised); color: var(--text-primary); padding: 10px; font: inherit; }
+.editor button { cursor: pointer; margin: 4px; }
+.editor button:disabled { opacity: .55; cursor: default; }
+.editor input[type="checkbox"] { min-height: 24px; width: 24px; }
+.controls { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
+.controls fieldset { border: 1px solid var(--border-subtle); display: flex; flex-wrap: wrap; gap: 12px; }
+.controls fieldset label { flex-direction: row; align-items: center; min-height: 44px; }
+@media(max-width:700px) { .editor {padding: 12px;} .panel {padding: 12px;} .controls {align-items: stretch;} .controls>label,.controls fieldset {width:100%;} }

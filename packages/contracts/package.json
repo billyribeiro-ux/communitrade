@@ -1,0 +1,14 @@
+{
+  "name": "@trading/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit", "generate": "node ../../scripts/generate-contracts.mjs", "check": "pnpm build && node ../../scripts/check-contracts.mjs && node ../../scripts/generate-contracts.mjs --check && pnpm exec tsc --ignoreConfig --noEmit --strict --skipLibCheck --target ES2023 --module NodeNext --moduleResolution NodeNext --lib ES2023,DOM test/client-types.ts" },
+  "dependencies": { "ajv": "8.20.0", "ajv-formats": "3.0.1" },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  }
+}

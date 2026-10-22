@@ -1,0 +1,19 @@
+.header { display: flex; align-items: center; gap: 28px; width: min(100% - 40px, 1200px); min-height: 72px; margin-inline: auto; }
+.brand { flex: none; color: var(--text-primary); font-size: 18px; font-weight: 750; letter-spacing: -.03em; text-decoration: none; }
+.brand span { color: var(--accent); }
+.desktopNav { display: flex; align-items: center; gap: 24px; margin-inline: auto; }
+.desktopNav a, .login { color: var(--text-secondary); text-decoration: none; font-size: 14px; }
+.desktopNav a:hover, .login:hover { color: var(--text-primary); }
+.actions { display: flex; align-items: center; gap: 16px; }
+.cta, .mobileCta { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 16px; border: 1px solid transparent; border-radius: 6px; color: var(--on-accent); background: var(--accent); font-weight: 650; text-decoration: none; }
+.menuButton { display: none; width: 44px; height: 44px; border: 1px solid var(--border-subtle); border-radius: 6px; color: var(--text-primary); background: var(--surface-card); }
+.mobileNav { display: flex; flex-direction: column; gap: 4px; }
+.mobileNav a { display: flex; align-items: center; min-height: 48px; padding: 0 12px; border-radius: 6px; color: var(--text-primary); text-decoration: none; }
+.mobileNav a:hover { background: var(--surface-raised); }
+.mobileNav .mobileCta { color: var(--on-accent); }
+.mobileTheme { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-block-start: 8px; padding: 12px; border-block-start: 1px solid var(--border-subtle); color: var(--text-secondary); }
+@media (max-width: 900px) {
+  .header { justify-content: space-between; gap: 12px; width: min(100% - 32px, 1200px); }
+  .desktopNav, .actions { display: none; }
+  .menuButton { display: grid; place-items: center; }
+}

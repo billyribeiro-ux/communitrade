@@ -1,0 +1,33 @@
+.adminList { display: grid; gap: 16px; }
+.adminCard { padding: 20px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--surface-card); }
+.adminHeading { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.adminHeading h2 { margin: 0; font-size: 19px; }
+.adminHeading h2 span { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
+.adminHeading p { margin: 6px 0 0; color: var(--text-secondary); font-size: 12px; overflow-wrap: anywhere; }
+.status { flex: none; padding: 4px 9px; border: 1px solid var(--border-subtle); border-radius: 99px; color: var(--text-primary); background: var(--surface-raised); font-size: 12px; font-weight: 700; }
+.adminFacts { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; margin: 18px 0; }
+.adminFacts dt { color: var(--text-secondary); font-size: 12px; }
+.adminFacts dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.demoLabel { display: flex; gap: 9px; margin: 12px 0; padding: 10px; border: 1px solid var(--warning); border-radius: 6px; }
+.demoLabel strong { color: var(--warning); }
+.demoLabel span { color: var(--text-secondary); }
+.paymentDetails { margin: 12px 0; color: var(--text-secondary); font-size: 13px; }
+.paymentDetails summary { cursor: pointer; color: var(--accent); }
+.paymentDetails li { overflow-wrap: anywhere; }
+.adminForm { display: grid; gap: 12px; margin-block-start: 16px; padding-block-start: 16px; border-block-start: 1px solid var(--border-subtle); }
+.adminForm label { display: grid; gap: 6px; color: var(--text-primary); font-size: 13px; font-weight: 650; }
+.adminForm select, .adminForm input, .adminForm textarea { width: 100%; min-height: 42px; padding: 9px 10px; border: 1px solid var(--border-subtle); border-radius: 6px; color: var(--text-primary); background: var(--surface-card); font: inherit; }
+.adminForm textarea { resize: vertical; }
+.adminForm :focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.refundFields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.primary { display: inline-flex; width: fit-content; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 9px 13px; border: 1px solid var(--accent); border-radius: 6px; color: var(--on-accent); background: var(--accent); font: inherit; font-weight: 700; cursor: pointer; }
+.primary:disabled { cursor: not-allowed; opacity: .65; }
+.warning, .subtle { color: var(--warning); font-size: 13px; }
+.warning a { color: var(--accent); }
+.error { display: flex; gap: 8px; color: var(--negative); }
+.success { color: var(--positive); }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+@media (max-width: 720px) { .adminHeading { flex-direction: column; } .adminFacts { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 480px) { .adminCard { padding: 15px; } .adminFacts, .refundFields { grid-template-columns: minmax(0,1fr); } }

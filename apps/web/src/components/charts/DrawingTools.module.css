@@ -1,0 +1,76 @@
+.tools {
+  min-width: 0;
+  margin-block: 16px;
+  padding: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--surface-card);
+  color: var(--text-primary);
+}
+.header,.formHeading,.history,.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.header { align-items: flex-start; justify-content: space-between; gap: 12px; }
+.header h3,.objectPanel h4,.form h4 { margin: 0; font-size: 16px; line-height: 1.3; }
+.count,.help,.optional,.mobileHelp,.locked,.empty { color: var(--text-secondary); font-size: 12px; }
+.count { margin: 3px 0 0; font-variant-numeric: tabular-nums; }
+.history { justify-content: flex-end; }
+.tools button,.tools input,.tools select,.tools textarea {
+  min-width: 0;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  font: inherit;
+}
+.tools button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; cursor: pointer; }
+.tools button:disabled { opacity: .55; cursor: default; }
+.tools button[aria-pressed="true"],.tools [aria-current="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.tools button:focus-visible,.tools input:focus-visible,.tools select:focus-visible,.tools textarea:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.toolbar { margin-block: 14px; padding-block: 10px; border-block: 1px solid var(--border-subtle); }
+.toolbar button { min-width: 44px; }
+.toolbar button span { overflow-wrap: anywhere; }
+.mobileHelp,.locked { margin: 0 0 12px; }
+.locked { color: var(--warning); }
+.body { display: grid; grid-template-columns: minmax(170px, .8fr) minmax(0, 1.6fr); gap: 16px; align-items: start; }
+.objectPanel,.form { min-width: 0; }
+.objectPanel h4 { margin-block: 0 8px; }
+.objectPanel ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.objectPanel li { min-width: 0; }
+.objectPanel li button { display: grid; width: 100%; justify-items: start; gap: 2px; text-align: start; overflow-wrap: anywhere; }
+.objectType { font-size: 12px; font-weight: 700; }
+.empty { margin: 8px 0; }
+.form { display: grid; gap: 12px; }
+.formHeading { justify-content: space-between; }
+.field { display: grid; min-width: 0; gap: 5px; color: var(--text-secondary); font-size: 13px; }
+.field input,.field select,.field textarea { width: 100%; }
+.field textarea { min-height: 84px; resize: vertical; }
+.anchorGroup,.styleFields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; min-width: 0; margin: 0; padding: 10px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); }
+.anchorGroup legend,.styleFields legend { grid-column: 1 / -1; padding-inline: 4px; color: var(--text-primary); font-size: 13px; font-weight: 650; }
+.anchorGroup .help { grid-column: 1 / -1; margin: 0; }
+.styleFields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.optional { font-weight: 400; }
+.help { overflow-wrap: anywhere; }
+.apply { justify-self: start; border-color: var(--accent) !important; background: var(--accent) !important; color: var(--on-accent) !important; font-weight: 650 !important; }
+.textButton { justify-self: start; border-color: transparent !important; background: transparent !important; color: var(--accent) !important; text-decoration: underline; text-underline-offset: 2px; }
+.error { margin: 12px 0 0; padding: 10px 12px; border: 1px solid var(--negative); border-radius: var(--radius-control); color: var(--text-primary); background: var(--surface-raised); overflow-wrap: anywhere; }
+
+@media (max-width: 700px) {
+  .tools { padding: 12px; }
+  .body { grid-template-columns: minmax(0, 1fr); }
+  .objectPanel ul { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 380px) {
+  .header { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .history { justify-content: flex-start; }
+  .toolbar { align-items: stretch; }
+  .toolbar button { flex: 1 1 44%; }
+  .anchorGroup,.styleFields { grid-template-columns: minmax(0, 1fr); }
+  .anchorGroup legend,.styleFields legend,.anchorGroup .help { grid-column: 1; }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@trading/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "node ../../scripts/next-build.mjs",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "2.1.10",
+    "@trading/config": "workspace:*",
+    "@trading/contracts": "workspace:*",
+    "@trading/domain": "workspace:*",
+    "@trading/media": "workspace:*",
+    "@trading/ui": "workspace:*",
+    "lightweight-charts": "5.2.1",
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0"
+  }
+}

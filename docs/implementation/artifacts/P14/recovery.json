@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "scope": "local synthetic isolated database rehearsal",
+  "generatedDatabases": [
+    "p14_source_ab90f21003e7452291d7",
+    "p14_restore_ab90f21003e7452291d7"
+  ],
+  "checkpoint": "custom-format pg_dump of generated source DB",
+  "checkpointCommittedAt": "2026-10-22T15:54:19.524Z",
+  "postCheckpointSyntheticCommitAt": "2026-10-22T15:54:19.777Z",
+  "simulatedCommittedDataLossWindowMs": 253,
+  "restoreElapsedMs": 650,
+  "suppressionEntries": 1,
+  "snapshotObjectSha256": "499be283bc64849e08151106e86c07f8691af2b5f9950116bd43957b41fdbc8f",
+  "checks": {
+    "restoredAuthServiceRejectedSession": true,
+    "restoredSessionRevoked": true,
+    "privateJournalRemoved": true,
+    "publicDerivativeRemoved": true,
+    "personalTextRedacted": true,
+    "immutableFinancialTermsPreserved": true,
+    "otherOwnerPreserved": true,
+    "checkpointObjectHashVerified": true,
+    "objectRemoved": true,
+    "postCheckpointWatermarkAbsent": true
+  },
+  "rpoClaim": false,
+  "note": "The loss window is the measured interval between two synthetic watermark commits. Restore elapsed time is local only; neither value establishes production RPO/RTO."
+}

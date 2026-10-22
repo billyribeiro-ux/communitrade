@@ -1,0 +1,12 @@
+# Repository owner supplied by the founder, October 22, 2026.
+# Local configuration only until pushed and enforced by repository settings.
+# Add an independent reviewer with write access before approving founder-authored PRs.
+* @billyribeiro-ux
+/.github/ @billyribeiro-ux
+/docs/adr/ @billyribeiro-ux
+/docs/quality/ @billyribeiro-ux
+/packages/domain/ @billyribeiro-ux
+/contracts/ @billyribeiro-ux
+/apps/api/ @billyribeiro-ux
+/prisma/ @billyribeiro-ux
+/infra/ @billyribeiro-ux

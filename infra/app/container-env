@@ -1,0 +1,1 @@
+# Prevent the host's ignored .env.local secrets file from being visible in app containers.

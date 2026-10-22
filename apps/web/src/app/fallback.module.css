@@ -1,0 +1,1 @@
+.panel{max-width:720px;margin:48px auto;padding:32px;color:var(--text-primary);overflow-wrap:anywhere}.panel h1{font-size:28px;line-height:1.15}.panel p{color:var(--text-secondary)}.panel a{display:inline-block;margin:16px 24px 16px 0}.skeleton{height:120px;border-radius:10px;background:var(--surface-raised)}@media(max-width:767px){.panel{padding:24px 16px;margin:24px auto}}

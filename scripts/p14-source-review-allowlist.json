@@ -1,0 +1,23 @@
+[
+  {
+    "file": "scripts/init-local-env.mjs",
+    "rule": "CREDENTIAL_DATABASE_URL",
+    "sha256": "67698b6f389c3237ac5f7781d457aaeff228526f0b321cceb8a3bd5bc4751472",
+    "reviewDate": "2026-10-22",
+    "reason": "Exact initializer placeholder or interpolation of generated secrets; no plaintext credential."
+  },
+  {
+    "file": "scripts/init-local-env.mjs",
+    "rule": "CREDENTIAL_DATABASE_URL",
+    "sha256": "88c4666580bea8fe52c248a56925d56fa73decb505c0b79a6cc857b9a9b6aeec",
+    "reviewDate": "2026-10-22",
+    "reason": "Exact initializer placeholder or interpolation of generated secrets; no plaintext credential."
+  },
+  {
+    "file": "scripts/prisma-generate.mjs",
+    "rule": "CREDENTIAL_DATABASE_URL",
+    "sha256": "63ebfb0439f168e6cc1bd525d85163fb86086ef918ce02d846c470712ed821c7",
+    "reviewDate": "2026-10-22",
+    "reason": "Exact client-generation-only fallback; never used for migrations or runtime."
+  }
+]

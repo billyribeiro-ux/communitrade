@@ -1,0 +1,14 @@
+.wrap { display: inline-flex; flex-direction: column; align-items: start; gap: 8px; min-width: 0; max-width: 100%; }
+.menu { min-width: 0; max-width: 100%; }
+.menu summary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 12px; list-style: none; cursor: pointer; color: var(--text-primary); background: var(--surface-raised); border: 1px solid var(--border-subtle); border-radius: var(--radius-control); }
+.menu summary::-webkit-details-marker { display: none; }
+.panel { display: grid; gap: 6px; width: min(340px, 100%); margin-top: 8px; padding: 12px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); }
+.panel a,.panel button,.profile button { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); color: var(--text-primary); background: var(--surface-raised); text-align: start; font: inherit; text-decoration: none; cursor: pointer; }
+.panel a:hover,.panel button:hover,.profile button:hover { border-color: var(--accent); }
+.panel button:disabled { opacity: .55; cursor: default; }
+.panel p,.status { margin: 4px 0; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
+.panel form,.panel label { display: grid; gap: 8px; min-width: 0; }
+.panel textarea,.fallback { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--surface-raised); color: var(--text-primary); font: inherit; }
+.fallback { width: min(400px,100%); min-height: 44px; }
+.profile { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.profile .status { flex-basis: 100%; }

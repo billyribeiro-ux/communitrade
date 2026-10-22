@@ -1,0 +1,10 @@
+/* Application-authored identity styling; CSS only. Provider markup stays upstream. */
+:root{color-scheme:dark;--tc-page:#0b0d10;--tc-card:#12161c;--tc-text:#f3f5f7;--tc-muted:#a8b3c2;--tc-border:#334155;--tc-accent:#8ab4ff}
+body{background:var(--tc-page)!important;color:var(--tc-text)!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
+#kc-header-wrapper{color:var(--tc-text);font-weight:700;letter-spacing:-.02em}
+.card-pf,.pf-v5-c-login__main{background:var(--tc-card)!important;color:var(--tc-text)!important;border:1px solid var(--tc-border)!important;border-radius:10px!important;box-shadow:none!important}
+a{color:var(--tc-accent)!important}label,.pf-v5-c-form__label-text{color:var(--tc-text)!important}
+input:not([type=submit]):not([type=checkbox]){background:var(--tc-page)!important;color:var(--tc-text)!important;border:1px solid var(--tc-border)!important;border-radius:6px!important;min-height:44px}
+button,input[type=submit]{min-height:44px;border-radius:6px!important}input[type=submit],button[type=submit]{background:var(--tc-accent)!important;color:#0b0d10!important;font-weight:600}
+:focus-visible{outline:2px solid #b8d1ff!important;outline-offset:3px!important}.tc-notice{color:var(--tc-muted);line-height:1.6}.tc-field{display:grid;gap:8px;margin:16px 0}.tc-submit{width:100%;margin-top:20px;border:0;padding:10px 16px;font:inherit}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

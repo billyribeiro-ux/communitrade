@@ -1,0 +1,2 @@
+.banner { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; margin: 0; padding: 8px 16px; border-block-end: 1px solid var(--border-subtle); color: var(--text-primary); background: var(--surface-raised); font-size: 12px; text-align: center; }
+.banner strong { color: var(--warning); }

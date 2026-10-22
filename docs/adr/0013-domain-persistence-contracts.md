@@ -1,0 +1,24 @@
+# ADR 0013 Domain arithmetic, persistence and API contracts
+
+Date: October 19, 2026  
+Status: Engineering implementation decision, verified locally in P02
+
+## Decision
+
+Keep the accepted Node/Next/Nest/Prisma/PostgreSQL versions. P02 adds the domain model and reusable infrastructure without exposing future business routes or implementing later user interfaces.
+
+- Monetary inputs are decimal strings bounded to 18 whole and 10 fractional digits. Calculators use BigInt with 20 internal fractional places, sufficient for exact products of two accepted 10-place inputs, arbitrary-size intermediate integers and the supported integer contract multipliers. No binary floating-point money arithmetic is used. Round half away from zero at explicitly formatted output; overflow is rejected. Ratios use integer numerator/denominator arithmetic. Missing fees/borrow costs remain incomplete, not zero.
+- Resolve canonical trade-plan IDs against trusted metadata snapshots before calculation. API buy/sell legs are normalized to domain long/short legs; strikes, multipliers, expiries and version identities come from the catalog. Stocks/options/futures use distinct price kinds. Historical calculations do not fail merely because the contract has since expired; new publication validation separately checks the supplied server clock.
+- Keep initial risk and its calculation/metadata/entry-term provenance separate from later outcomes. Stock/futures planned risk is not a maximum-loss guarantee. Metadata corrections append versions and retain the original denominator. All metadata versions are append-only from creation, a stronger rule than waiting until first reference; this avoids a race between editing metadata and creating its first reference.
+- Prisma models provide generated scalar access; reviewed SQL supplements composite ownership/version references, immutable history, checks and indexes. Applied migrations are immutable and corrections are forward migrations. Do not use schema push or an unreviewed generated diff that drops SQL-only constraints. Migration checksum verification and a fresh-database acceptance script prove the recorded history.
+- Database-only command transactions lock the active, verified actor, then serialize each actor/operation/idempotency-key tuple with a transaction advisory lock. Canonical JSON hashes reject values serialization would silently lose. A completed successful response, record mutation, quota effect and outbox intent commit together; failed commands roll back. Replays recheck actor eligibility and preserve the original response for at least 24 hours. Different input with the same key conflicts.
+- UTC-month quotas use conditional upserts; async reservations count toward the limit and settle against their original bucket even across month-end. Owner-scoped record locks and revisions prevent cross-owner access and lost writes. Missing and foreign private objects return the same error.
+- Outbox consumers claim rows with `FOR UPDATE SKIP LOCKED`, a 60-second lease, bounded retries and attempt fencing. At most eight claims are allowed; retry delay is bounded at 300 seconds. No network effects occur in the transaction helpers. Actual delivery and provider idempotency remain P11 responsibilities; database fencing is not a promise of exactly-once external delivery.
+- Generate TypeScript operation/schema types from canonical OpenAPI/JSON Schema without the removed TypeScript JavaScript compiler API. Ajv 2020 validates runtime payloads and chart state; Swagger Parser validates OpenAPI 3.1. Check generated files byte-for-byte. Conditional schema rules are enforced at runtime even when TypeScript represents their common object shape conservatively.
+- Map only trusted application exceptions to safe RFC problem JSON; unknown failures are redacted. Preserve the minimal P01 readiness response. Synthetic seeds refuse production, and API production startup rejects synthetic account/catalog records. These guards do not replace later supplier, identity or release checks.
+
+## Consequences and evidence
+
+The source contract still describes future routes: generated client definitions do not mean 122 endpoints are implemented. Trusted actor identity must come from P04 sessions; transaction helpers are not HTTP authentication. Business publishing/events/UI and all provider effects retain their assigned milestones.
+
+See [P02 evidence](../implementation/evidence/P02.md), [persistence schema](../architecture/persistence-schema.md), [contract generation](../architecture/contract-generation.md), [calculation fixtures](../architecture/calculation-fixtures.md), and the [data model](../architecture/data-model.md). Revisit when supported contracts/multipliers, precision requirements, event semantics or compiler compatibility change; do not broaden the product silently.

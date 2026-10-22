@@ -1,0 +1,275 @@
+name: ${COMPOSE_PROJECT_NAME:-options-trade-ideas}
+
+x-app: &app
+  build:
+    context: .
+    dockerfile: infra/app/Dockerfile
+  image: options-trade-ideas-dev:local
+  working_dir: /workspace
+  volumes:
+    - .:/workspace
+    - ./infra/app/container-env:/workspace/.env.local:ro
+    - app_node_modules:/workspace/node_modules
+    - web_node_modules:/workspace/apps/web/node_modules
+    - api_node_modules:/workspace/apps/api/node_modules
+    - worker_node_modules:/workspace/apps/worker/node_modules
+    - config_node_modules:/workspace/packages/config/node_modules
+    - config_dist:/workspace/packages/config/dist
+    - domain_node_modules:/workspace/packages/domain/node_modules
+    - domain_dist:/workspace/packages/domain/dist
+    - contracts_node_modules:/workspace/packages/contracts/node_modules
+    - contracts_dist:/workspace/packages/contracts/dist
+    - ui_node_modules:/workspace/packages/ui/node_modules
+    - media_node_modules:/workspace/packages/media/node_modules
+    - media_dist:/workspace/packages/media/dist
+    - pnpm_store:/pnpm/store
+    - web_next:/workspace/apps/web/.next
+    - api_dist:/workspace/apps/api/dist
+    - worker_dist:/workspace/apps/worker/dist
+    - local_objects:/var/lib/options-trade-ideas/objects
+  init: true
+  networks:
+    - app
+
+services:
+  deps:
+    <<: *app
+    command: ["sh", "-lc", "pnpm install --frozen-lockfile && pnpm db:generate && pnpm build:shared"]
+    restart: "no"
+
+  migrate:
+    <<: *app
+    command: ["pnpm", "db:migrate"]
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: ${DATABASE_URL}
+    restart: "no"
+    depends_on:
+      deps:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+
+  web:
+    <<: *app
+    command: ["pnpm", "--filter", "@trading/web", "dev"]
+    environment:
+      NODE_ENV: development
+      RELEASE_MODE: local
+      API_INTERNAL_URL: http://api:3001
+      PUBLICATION_RENDER_HMAC_SECRET: ${PUBLICATION_RENDER_HMAC_SECRET}
+    ports:
+      - "127.0.0.1:${WEB_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 20s
+    depends_on:
+      deps:
+        condition: service_completed_successfully
+      api:
+        condition: service_healthy
+
+  api:
+    <<: *app
+    command: ["pnpm", "--filter", "@trading/api", "dev"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      NODE_ENV: development
+      RELEASE_MODE: local
+      WEB_ORIGIN: http://localhost:${WEB_PORT:-3000}
+      APP_ORIGIN: http://localhost:${WEB_PORT:-3000}
+      OIDC_REDIRECT_URI: http://localhost:${WEB_PORT:-3000}/api/v1/auth/callback
+      BILLING_PROVIDER: ${BILLING_PROVIDER:-fake}
+      BILLING_MODE: ${BILLING_MODE:-test}
+      BILLING_PROVIDER_ACCOUNT_ID: ${BILLING_PROVIDER_ACCOUNT_ID:-local-fake-account}
+      BILLING_LIVE_APPROVED: ${BILLING_LIVE_APPROVED:-false}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      STRIPE_PRICE_PRO_MONTH: ${STRIPE_PRICE_PRO_MONTH:-}
+      STRIPE_PRICE_PRO_YEAR: ${STRIPE_PRICE_PRO_YEAR:-}
+      STRIPE_TAX_CONFIGURED: ${STRIPE_TAX_CONFIGURED:-false}
+      STRIPE_BILLING_PORTAL_CONFIGURATION_ID: ${STRIPE_BILLING_PORTAL_CONFIGURATION_ID:-}
+      SUPPORT_CONTACT_EMAIL: ${SUPPORT_CONTACT_EMAIL:-}
+      SUPPORT_CONTACT_MONITORED: ${SUPPORT_CONTACT_MONITORED:-false}
+      TERMS_VERSION: ${TERMS_VERSION:-2026-10-19.draft-1}
+      OIDC_MFA_ASSURANCE: ${OIDC_MFA_ASSURANCE:-2}
+      OIDC_ACCOUNT_URL: http://auth.localhost:${KEYCLOAK_PORT:-8080}/realms/options-trade-ideas/account
+      OIDC_ISSUER: ${OIDC_ISSUER}
+      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID}
+      OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET}
+      SESSION_SECRET: ${SESSION_SECRET}
+      PRIVACY_SUPPRESSION_KEY: ${PRIVACY_SUPPRESSION_KEY:-}
+      DATA_ENCRYPTION_KEY: ${DATA_ENCRYPTION_KEY}
+      PUBLICATION_RENDER_HMAC_SECRET: ${PUBLICATION_RENDER_HMAC_SECRET}
+      MARKET_DATA_PROVIDER: ${MARKET_DATA_PROVIDER:-synthetic}
+      DATABENTO_API_KEY: ${DATABENTO_API_KEY:-}
+      DATABENTO_STOCK_DATASET: ${DATABENTO_STOCK_DATASET:-}
+      DATABENTO_OPTION_DATASET: ${DATABENTO_OPTION_DATASET:-}
+      DATABENTO_FUTURE_DATASET: ${DATABENTO_FUTURE_DATASET:-}
+      DATABENTO_SCHEMAS: ${DATABENTO_SCHEMAS:-}
+      DATABENTO_APPROVED_CAPABILITIES: ${DATABENTO_APPROVED_CAPABILITIES:-}
+      DATABENTO_DELAY_SECONDS: ${DATABENTO_DELAY_SECONDS:-}
+      DATABENTO_CALENDAR_CONFIG: ${DATABENTO_CALENDAR_CONFIG:-}
+      STORAGE_DRIVER: local
+      LOCAL_OBJECTS_PATH: /var/lib/options-trade-ideas/objects
+      SMTP_HOST: mailpit
+      SMTP_PORT: 1025
+      EMAIL_FROM: ${EMAIL_FROM}
+    ports:
+      - "127.0.0.1:${API_PORT:-3001}:3001"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/api/v1/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    networks:
+      - app
+      - identity
+
+  worker:
+    <<: *app
+    build:
+      context: .
+      dockerfile: infra/worker/Dockerfile
+    image: options-trade-ideas-worker:local
+    shm_size: 1gb
+    # Direct PID 1 receives SIGTERM and drains jobs; restart after worker edits.
+    command: ["node", "--import", "tsx", "apps/worker/src/main.ts"]
+    stop_grace_period: 30s
+    environment:
+      PUBLICATION_RENDER_BASE_URL: http://web:3000
+      PUBLICATION_API_BASE_URL: http://api:3001
+      PUBLICATION_RENDER_HMAC_SECRET: ${PUBLICATION_RENDER_HMAC_SECRET}
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      DATABASE_URL: ${DATABASE_URL}
+      NODE_ENV: development
+      RELEASE_MODE: local
+      SESSION_SECRET: ${SESSION_SECRET}
+      PRIVACY_SUPPRESSION_KEY: ${PRIVACY_SUPPRESSION_KEY:-}
+      APP_ORIGIN: http://localhost:${WEB_PORT:-3000}
+      WEB_ORIGIN: http://localhost:${WEB_PORT:-3000}
+      BILLING_PROVIDER: ${BILLING_PROVIDER:-fake}
+      BILLING_MODE: ${BILLING_MODE:-test}
+      BILLING_PROVIDER_ACCOUNT_ID: ${BILLING_PROVIDER_ACCOUNT_ID:-local-fake-account}
+      STORAGE_DRIVER: local
+      LOCAL_OBJECTS_PATH: /var/lib/options-trade-ideas/objects
+      SMTP_HOST: mailpit
+      SMTP_PORT: 1025
+      EMAIL_FROM: ${EMAIL_FROM}
+    healthcheck:
+      test: ["CMD", "node", "apps/worker/scripts/healthcheck.mjs"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    build:
+      context: .
+      dockerfile: infra/postgres/Dockerfile
+    image: options-trade-ideas-postgres:local
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_BOOTSTRAP_PASSWORD}
+      POSTGRES_DB: postgres
+      APP_DB_NAME: ${APP_DB_NAME}
+      APP_DB_USER: ${APP_DB_USER}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD}
+      IDENTITY_DB_NAME: ${IDENTITY_DB_NAME}
+      IDENTITY_DB_USER: ${IDENTITY_DB_USER}
+      IDENTITY_DB_PASSWORD: ${IDENTITY_DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${APP_DB_USER}\" -d \"$${APP_DB_NAME}\""]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    networks:
+      - app
+      - identity
+
+  keycloak:
+    image: options-trade-ideas-keycloak:local
+    build:
+      context: .
+      dockerfile: infra/keycloak/Dockerfile
+    volumes:
+      - ./infra/keycloak/themes/trading-community:/opt/keycloak/themes/trading-community:ro
+    command: ["start-dev", "--http-port=${KEYCLOAK_PORT:-8080}", "--hostname=http://auth.localhost:${KEYCLOAK_PORT:-8080}"]
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: ${KC_DB_URL}
+      KC_DB_USERNAME: ${KC_DB_USERNAME}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_HTTP_ENABLED: "true"
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "false"
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    ports:
+      - "127.0.0.1:${KEYCLOAK_PORT:-8080}:${KEYCLOAK_PORT:-8080}"
+    healthcheck:
+      # Management readiness is distinct from the configured realm/client protocol checks.
+      test: ["CMD", "bash", "-ec", "{ printf 'HEAD /health/ready HTTP/1.0\\r\\n\\r\\n' >&0; grep 'HTTP/1.0 200'; } 0<>/dev/tcp/localhost/9000"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+      start_period: 30s
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      identity:
+        aliases:
+          - auth.localhost
+
+  mailpit:
+    image: axllent/mailpit:v1.27.8@sha256:6abc8e633df15eaf785cfcf38bae48e66f64beecdc03121e249d0f9ec15f0707
+    ports:
+      - "127.0.0.1:${MAILPIT_UI_PORT:-8025}:8025"
+    networks:
+      - app
+      - identity
+
+volumes:
+  postgres_data:
+  app_node_modules:
+  web_node_modules:
+  api_node_modules:
+  worker_node_modules:
+  config_node_modules:
+  config_dist:
+  domain_node_modules:
+  domain_dist:
+  contracts_node_modules:
+  contracts_dist:
+  ui_node_modules:
+  media_node_modules:
+  media_dist:
+  pnpm_store:
+  web_next:
+  api_dist:
+  worker_dist:
+  local_objects:
+
+networks:
+  app:
+  identity:

@@ -1,0 +1,90 @@
+{
+  "result": "MEASURED",
+  "database": "p14_load_42a5228990b04739a7eb",
+  "report": {
+    "fixture": {
+      "accounts": 5000,
+      "monthlyActiveAccounts": 1000,
+      "concurrentSessions": 100,
+      "sessionRows": 1000,
+      "publications": 50000,
+      "comments": 250000
+    },
+    "measurements": {
+      "poolMax": 8,
+      "apiConfiguredPoolMax": 8,
+      "concurrentAuthenticatedRequests": 100,
+      "concurrentMix": {
+        "plainFeedPercent": 40,
+        "publicationSearchPercent": 20,
+        "chartHistoryPercent": 20,
+        "privateReadPercent": 10,
+        "privateWritePercent": 10
+      },
+      "serviceWriteCount": 100,
+      "serviceWriteElapsedMs": 58.00404199999957,
+      "mixedServiceElapsedMs": 330.76458399999956,
+      "requestDurationMs": {
+        "sessionAuthentication": {
+          "p50": 13.560207999999875,
+          "p95": 15.889499999999316,
+          "samples": 100
+        },
+        "privateRead": {
+          "p50": 0.576082999999926,
+          "p95": 1.3340420000004087,
+          "samples": 2
+        },
+        "privateWrite": {
+          "p50": 35.72020800000064,
+          "p95": 56.27216700000008,
+          "samples": 100
+        },
+        "plainFeed": {
+          "p50": 314.2414999999992,
+          "p95": 314.7198750000007,
+          "samples": 40
+        },
+        "publicationSearch": {
+          "p50": 314.34400000000005,
+          "p95": 314.6346249999997,
+          "samples": 21
+        },
+        "chartHistory": {
+          "p50": 268.096458,
+          "p95": 293.0032090000004,
+          "samples": 20
+        },
+        "authenticatedPrivateRead": {
+          "p50": 280.8463329999995,
+          "p95": 299.0394580000002,
+          "samples": 10
+        },
+        "authenticatedPrivateWrite": {
+          "p50": 131.91824999999972,
+          "p95": 251.09187500000007,
+          "samples": 10
+        }
+      },
+      "poolCheckoutWaitMs": {
+        "writeBatch": {
+          "p50": 32.555875000000015,
+          "p95": 52.36449999999968,
+          "samples": 100
+        },
+        "concurrentMix": {
+          "p50": 4.647125000000415,
+          "p95": 189.43766700000015,
+          "samples": 710
+        }
+      },
+      "searchResultCount": 20,
+      "privateIsolation": "passed",
+      "thresholds": {
+        "ordinaryServiceP95Ms": 750,
+        "searchServiceP95Ms": 1000
+      }
+    },
+    "scope": "local API service + PostgreSQL timings using the API-configured pool; no browser LCP or production capacity claim"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "decision": "NO_GO",
+  "reviewDate": "2026-10-22",
+  "openGates": [
+    "G01",
+    "G02",
+    "G03",
+    "G04",
+    "G05",
+    "G06",
+    "G07",
+    "G08",
+    "G09",
+    "G10",
+    "G11",
+    "G12"
+  ],
+  "deploys": false,
+  "charges": false,
+  "note": "Artifact presence and configured flags do not establish commercial or legal approval.",
+  "requireReadyExitCode": 1
+}

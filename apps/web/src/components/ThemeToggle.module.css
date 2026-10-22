@@ -1,0 +1,6 @@
+.toggle { display: flex; align-items: center; gap: 2px; margin: 0; padding: 3px; border: 1px solid var(--border-subtle); border-radius: 8px; }
+.toggle legend { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+.toggle button { display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 5px; color: var(--text-secondary); background: transparent; cursor: pointer; }
+.toggle button[aria-pressed="true"] { color: var(--text-primary); background: var(--surface-raised); }
+.toggle button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+@media (max-width: 767px) { .toggle button { width: 44px; height: 44px; } }

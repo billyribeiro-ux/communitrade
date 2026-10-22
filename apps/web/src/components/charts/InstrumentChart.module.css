@@ -1,0 +1,34 @@
+.panel { min-width:0; margin:24px 0; padding:clamp(14px,3vw,24px); border:1px solid var(--border-subtle); border-radius:var(--radius-card); background:var(--surface-card); }
+.heading { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.heading h2 { margin:0 0 8px; font-size:clamp(20px,3vw,26px); line-height:1.25; }
+.heading p { color:var(--text-secondary); max-width:75ch; }
+.eyebrow { margin:0 0 8px; font-size:11px; font-weight:700; letter-spacing:.1em; }
+.panel button,.panel select { min-height:44px; padding:8px 12px; color:var(--text-primary); border:1px solid var(--border-subtle); border-radius:var(--radius-control); background:var(--surface-raised); font:inherit; }
+.panel button { display:inline-flex; gap:8px; align-items:center; justify-content:center; cursor:pointer; }
+.panel button:disabled { opacity:.55; cursor:default; }
+.controls { display:flex; flex-wrap:wrap; align-items:flex-end; gap:16px; margin:20px 0 12px; }
+.controls > label { display:grid; gap:5px; color:var(--text-secondary); font-size:13px; min-width:120px; }
+.controls select { max-width:100%; }
+.controls fieldset { display:flex; flex-wrap:wrap; gap:10px; margin:0; padding:8px 12px; border:1px solid var(--border-subtle); border-radius:var(--radius-control); }
+.controls legend { color:var(--text-secondary); font-size:12px; padding-inline:4px; }
+.indicator { display:inline-flex; align-items:center; gap:6px; min-height:28px; font-size:13px; }
+.indicator input { accent-color:var(--accent); width:16px; height:16px; }
+.ema20 { color:var(--chart-ema-20); }
+.ema50 { color:var(--chart-ema-50); }
+.ema200 { color:var(--chart-ema-200); }
+.context { color:var(--text-secondary); font-size:12px; overflow-wrap:anywhere; }
+.notice,.error { padding:12px 14px; border:1px solid var(--border-subtle); border-radius:var(--radius-control); background:var(--surface-raised); overflow-wrap:anywhere; }
+.warning { border-color:var(--warning); }
+.error { border-color:var(--negative); }
+.error button { margin:8px; }
+.prices { margin-top:18px; min-width:0; }
+.prices summary { font-weight:650; cursor:pointer; min-height:44px; padding-block:12px; }
+.prices p { color:var(--text-secondary); font-size:12px; max-width:90ch; }
+.tableScroll { max-width:100%; overflow:auto; border:1px solid var(--border-subtle); border-radius:6px; }
+.prices table { width:100%; border-collapse:collapse; text-align:start; font-size:12px; font-variant-numeric:tabular-nums; }
+.prices caption { text-align:start; padding:12px; color:var(--text-secondary); }
+.prices th,.prices td { text-align:start; padding:9px 12px; white-space:nowrap; border-top:1px solid var(--border-subtle); }
+.prices tbody th { font-weight:400; }
+.pagination { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:12px; }
+.pagination span { font-size:12px; color:var(--text-secondary); }
+@media(max-width:600px) { .heading { flex-direction:column; gap:8px; } .controls { display:grid; grid-template-columns:minmax(0,1fr); } .controls > label { min-width:0; } .controls fieldset { min-width:0; } .pagination { gap:8px; } }
