@@ -1,5 +1,11 @@
 {
-  "required_status_checks": {"strict": true, "contexts": ["checks", "handoff"]},
+  "required_status_checks": {
+    "strict": true,
+    "checks": [
+      {"context": "checks", "app_id": 15368},
+      {"context": "handoff", "app_id": 15368}
+    ]
+  },
   "enforce_admins": true,
   "required_pull_request_reviews": {
     "dismiss_stale_reviews": true,
