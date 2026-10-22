@@ -1,6 +1,7 @@
 # Repository owner supplied by the founder, October 22, 2026.
 # Published and enforced on main on October 22, 2026; see governance evidence.
-# Add an independent reviewer with write access before approving founder-authored PRs.
+# Ownership routing only during the founder-approved solo-maintainer period.
+# Independent human approval is not claimed; see ADR 0026.
 * @billyribeiro-ux
 /.github/ @billyribeiro-ux
 /docs/adr/ @billyribeiro-ux

@@ -5,7 +5,7 @@ A build-ready engineering plan can coexist with unsigned commercial dependencies
 | Gate | Owner | Needed evidence | Blocks |
 | --- | --- | --- | --- |
 | G01 Business identity/domain | Founder | Legal operator, brand/domain, contact addresses and entity/IP ownership | Public marketing/policy publication |
-| G02 Repository governance | Founder + engineering lead | GitHub remote, reviewer handles, private reporting, branch protections/checks | Team collaboration enforcement |
+| G02 Repository governance | Founder + engineering lead | GitHub remote, approved review policy, private reporting, enforced branch/security checks and separate review evidence | Protected development workflow |
 | G03 Commercial data | Founder + supplier | Signed coverage for stocks/options/ES-MES-NQ-MNQ; public/member display, retention, images, exports and costs | External beta and corresponding data surfaces |
 | G04 Legal product/policy review | Founder + counsel | Reviewed actual publishing/metrics/subscription/moderation/privacy flows and approved copy/retention | External beta/paid launch as applicable |
 | G05 Processor acceptance | Founder + processor | Acceptance of business, production account, prices/tax/refund setup | Charging users |
@@ -72,3 +72,7 @@ G04 still requires approved retention/hold/redaction and provider-side identity/
 ## P14 candidate decision
 
 The [P14 evidence](../implementation/evidence/P14.md), [32-scenario matrix](../quality/p14-acceptance-matrix.md) and [machine-readable register](../implementation/p14-release-status.json) record local implementation and acceptance limits. All G01–G12 remain open. Passing local signed ingress/R2/Svix protocol tests and generated-database recovery does not supply commercial credentials, license grants, production backup restoration, legal approval, monitored staffing, branding approval or rendered browser acceptance. No accounts were purchased and no services were deployed. `pnpm check:p14:release` reports NO_GO; it never changes live billing or deploys.
+
+## Solo-maintainer governance update
+
+The founder approved [ADR 0026](../adr/0026-solo-maintainer-governance.md) and authorized merging PR #1 after separate automated review and all checks. G02 evaluates that actual approved policy, not a nonexistent second maintainer. This does not waive independent production recovery/security review, legal/provider evidence, or any other launch gate. The earlier P14 all-open statement is a historical snapshot; use the current machine-readable register and dated evidence.

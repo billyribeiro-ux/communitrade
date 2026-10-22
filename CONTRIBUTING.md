@@ -1,6 +1,6 @@
 # Contributing
 
-This is a private commercial engineering project, not an open-source invitation. Work requires authorization from the project owner and the applicable contributor/IP agreement.
+This is a proprietary commercial engineering project; public source visibility does not grant an open-source license. Work requires authorization from the project owner and the applicable contributor/IP agreement.
 
 Read [AGENTS.md](AGENTS.md), the [execution plan](docs/implementation/execution-plan.md), and the assigned prompt. Open a scoped branch and PR for one milestone or reviewable subtask. Reference requirement and acceptance IDs. Keep unrelated refactors out of feature changes.
 
@@ -18,6 +18,6 @@ After scaffolding, CI must run type checking, linting, meaningful domain/integra
 
 ## Review and merges
 
-Engineering lead reviews API/data/calculation changes. Founder reviews scope and visual evidence. An independent reviewer checks release security/calculation evidence. Configure actual GitHub handles and protected branches when the remote exists; repository templates alone do not enforce reviews.
+Follow the founder-approved [solo-maintainer policy](docs/adr/0026-solo-maintainer-governance.md): use a protected PR, run a separate read-only automated review, resolve actionable findings, and pass the current CI/CodeQL gates before an ordinary squash merge. The founder remains accountable; automated review is not independent human assurance. Restore independent human approval when another trusted maintainer joins. Independent production security/recovery review requirements remain explicit release gates.
 
 Use the [PR template](.github/pull_request_template.md). Keep implementation changes separate from commercial/legal approval. Security reports follow [SECURITY.md](SECURITY.md).

@@ -1,6 +1,11 @@
 # Changelog
 
 
+## Solo-maintainer governance — October 22, 2026
+
+- Applied the founder-approved solo review policy while preserving required PRs, CI, CodeQL, secret protection, Actions restrictions and administrator enforcement.
+- Recorded ADR 0026, actual before/after comparisons and the required separate automated review/normal protected squash-merge procedure. [Execution evidence](docs/implementation/evidence/solo-maintainer.md) records actual outcomes and limitations.
+
 ## GitHub publication and governance — October 22, 2026
 
 - Published the complete Phase 1 candidate to the founder’s repository using Git; kept it public under the latest explicit instruction.

@@ -122,7 +122,7 @@ for (const [route, item] of Object.entries(api.paths)) {
 }
 const adrFiles = all.filter(p => /^docs\/adr\/[0-9]{4}-.*\.md$/.test(p));
 for (const requiredOperation of ['startLogin','completeLogin','getMe','updateProfile','saveDraftChart','publishDraft','getPublicationJob','getPublicationVersion','appendPositionEvent','listPositionEvents','createRepost','getShareImage','createCheckout','receiveStripeWebhook','oidcBackchannelLogout','startStepUp','adminReviewCorrection','getMediaContent','downloadExport']) check(operationIds.has(requiredOperation), 'Missing core workflow operation: ' + requiredOperation);
-check(adrFiles.length === 25, 'Expected 25 substantive ADRs');
+check(adrFiles.length === 26, 'Expected 26 substantive ADRs');
 if (failures.length) {
   for (const failure of failures) process.stderr.write('FAIL ' + failure + '\n');
   process.exitCode = 1;
