@@ -18,10 +18,12 @@
       "id": "G02",
       "owner": "Founder + engineering",
       "status": "open",
-      "reason": "Candidate pushed to authorized public GitHub repository; branch protection, restricted Actions, Dependabot, secret scanning/push protection and private reporting verified. CI correction and independent reviewer/code-owner approval tracked in PR #1; gate remains open.",
+      "reason": "Candidate pushed to authorized public GitHub repository; branch protection, restricted Actions, Dependabot, private reporting and CodeQL security ruleset verified. Hosted CI and zero-finding PR CodeQL evidenced; independent reviewer/code-owner eligibility and approval/merge remain open.",
       "evidence": [
         "docs/implementation/evidence/github-setup.md",
-        "docs/implementation/artifacts/github-setup/settings.json"
+        "docs/implementation/artifacts/github-setup/settings.json",
+        "docs/implementation/artifacts/github-setup/ci.json",
+        "docs/implementation/artifacts/github-setup/codeql.json"
       ],
       "reviewer": null,
       "reviewedAt": null,
@@ -81,7 +83,7 @@
       "id": "G08",
       "owner": "Engineering",
       "status": "open",
-      "reason": "Historical local automated acceptance and hosted 372-test suite/builds passed. Native CodeQL main baseline reported ten findings; hardening and repeated scan tracked in PR #1. Manual rendered browser/assistive-technology matrix remains blocked by saved localhost permission.",
+      "reason": "Hosted hardened candidate passed 377 application tests with zero failures/skips, builds and zero-finding CodeQL in all four languages. Main baseline findings remain pending independently reviewed merge/rescan. Manual rendered browser/assistive-technology matrix remains blocked by saved localhost permission.",
       "evidence": [],
       "reviewer": null,
       "reviewedAt": null,
@@ -140,6 +142,7 @@
     "docs/implementation/artifacts/release-closure/repository.json",
     "docs/implementation/evidence/github-setup.md",
     "docs/implementation/artifacts/github-setup/settings.json",
-    "docs/implementation/artifacts/github-setup/ci.json"
+    "docs/implementation/artifacts/github-setup/ci.json",
+    "docs/implementation/artifacts/github-setup/codeql.json"
   ]
 }

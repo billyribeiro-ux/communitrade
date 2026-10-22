@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-22T17:28:25.293967+00:00",
+  "observedAt": "2026-10-22T17:33:42.430001+00:00",
   "runs": [
     {
       "conclusion": "failure",
@@ -871,6 +871,376 @@
       "name": "CodeQL Setup",
       "status": "completed",
       "url": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39822191854"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39823003950,
+      "headSha": "7937ae3bfbf90b63f8a75f8bf1174dd5f9b7536b",
+      "jobs": [
+        {
+          "name": "checks",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444",
+              "conclusion": "success"
+            },
+            {
+              "name": "Activate pinned pnpm",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install locked dependencies",
+              "conclusion": "success"
+            },
+            {
+              "name": "Lint",
+              "conclusion": "success"
+            },
+            {
+              "name": "Review production dependencies and source patterns",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify release preflight redaction and artifact parsers",
+              "conclusion": "success"
+            },
+            {
+              "name": "Generate Prisma client",
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply migrations and seed PostgreSQL",
+              "conclusion": "success"
+            },
+            {
+              "name": "Typecheck",
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate OpenAPI, chart schema and generated client drift",
+              "conclusion": "success"
+            },
+            {
+              "name": "Test",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify P03 release and nonlocal fixture boundaries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify immutable migration history",
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile pinned Keycloak credential-revocation provider",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build nonroot production images (no push)",
+              "conclusion": "success"
+            },
+            {
+              "name": "Report release gates (does not deploy)",
+              "conclusion": "success"
+            },
+            {
+              "name": "Check documentation integrity",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+              "conclusion": "success"
+            },
+            {
+              "name": "Stop containers",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ],
+      "name": "Application checks",
+      "status": "completed",
+      "url": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39823003950"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39823004117,
+      "headSha": "7937ae3bfbf90b63f8a75f8bf1174dd5f9b7536b",
+      "jobs": [
+        {
+          "name": "handoff",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/verify-handoff.mjs",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ],
+      "name": "Documentation integrity",
+      "status": "completed",
+      "url": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39823004117"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39822997151,
+      "headSha": "7937ae3bfbf90b63f8a75f8bf1174dd5f9b7536b",
+      "jobs": [
+        {
+          "name": "Analyze (java-kotlin)",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Checkout repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup proxy for registries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize CodeQL",
+              "conclusion": "success"
+            },
+            {
+              "name": "Autobuild",
+              "conclusion": "success"
+            },
+            {
+              "name": "Perform CodeQL Analysis",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Perform CodeQL Analysis",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Initialize CodeQL",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup proxy for registries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Checkout repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Analyze (javascript-typescript)",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Checkout repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup proxy for registries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize CodeQL",
+              "conclusion": "success"
+            },
+            {
+              "name": "Autobuild",
+              "conclusion": "success"
+            },
+            {
+              "name": "Perform CodeQL Analysis",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Perform CodeQL Analysis",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Initialize CodeQL",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup proxy for registries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Checkout repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Analyze (actions)",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Checkout repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup proxy for registries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize CodeQL",
+              "conclusion": "success"
+            },
+            {
+              "name": "Autobuild",
+              "conclusion": "success"
+            },
+            {
+              "name": "Perform CodeQL Analysis",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Perform CodeQL Analysis",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Initialize CodeQL",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup proxy for registries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Checkout repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Analyze (python)",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Checkout repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup proxy for registries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize CodeQL",
+              "conclusion": "success"
+            },
+            {
+              "name": "Autobuild",
+              "conclusion": "success"
+            },
+            {
+              "name": "Perform CodeQL Analysis",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Perform CodeQL Analysis",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Initialize CodeQL",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup proxy for registries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Checkout repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ],
+      "name": "PR #1",
+      "status": "completed",
+      "url": "https://github.com/billyribeiro-ux/communitrade/actions/runs/39822997151"
     }
   ],
   "applicationSuiteAt9e2fc00": {
@@ -880,5 +1250,12 @@
     "cancelled": 0,
     "skipped": 0
   },
-  "scope": "Historical remote executions before the CodeQL hardening commit; subsequent revisions require fresh checks."
+  "scope": "Actual hosted runs through source revision 7937ae3; final evidence-only revision requires its own checks.",
+  "applicationSuiteAt7937ae3": {
+    "tests": 377,
+    "pass": 377,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  }
 }
