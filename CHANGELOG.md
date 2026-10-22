@@ -1,6 +1,12 @@
 # Changelog
 
 
+## GitHub publication and governance — October 22, 2026
+
+- Published the complete Phase 1 candidate to the founder’s repository using Git; kept it public under the latest explicit instruction.
+- Enforced main review/check protections, bound checks to GitHub Actions, restricted Actions to SHA-pinned GitHub-owned actions, and enabled Dependabot and private security reporting; verified existing secret scanning/push protection.
+- Corrected initial remote CI bootstrap failure caused by implicit pnpm caching before activation and removed the source scanner’s unnecessary ripgrep runtime dependency; scoped synthetic test configuration and exact-pinned Mailpit now supply the integration environment. Exact package/runtime pins are unchanged. Follow-up changes use PR #1 and await independent review. Actual results and remaining release gates are in [GitHub evidence](docs/implementation/evidence/github-setup.md).
+
 ## Release gate preparation — October 22, 2026
 
 - Initialized local Git and configured the supplied public/empty `billyribeiro-ux/communitrade` remote; no source pushed or remote settings changed. Prepared real-owner CODEOWNERS and branch-protection settings.

@@ -39,7 +39,7 @@ User instructions -> [root AGENTS](../AGENTS.md) -> [MVP baseline](mvp-specifica
 | Security/privacy/retention | [Security contract](quality/security-and-privacy.md) |
 | Development/deployment/recovery/incidents | [Runbooks](operations/runbooks.md) |
 | Long-term support and later roadmap | [Maintenance](operations/maintenance-and-roadmap.md) |
-| Release closure and founder inputs | [Exact checklist](handoff/release-closure.md), [follow-up evidence](implementation/evidence/release-closure.md) |
+| Release closure and founder inputs | [Exact checklist](handoff/release-closure.md), [follow-up evidence](implementation/evidence/release-closure.md), [GitHub execution](implementation/evidence/github-setup.md) |
 | External approvals/credentials | [Dependency and release gates](handoff/dependencies-and-release-gates.md) |
 | GitHub settings and delivery | [Repository governance](governance/repository-settings.md) |
 | Change history and licensing | [Changelog](../CHANGELOG.md), [license](../LICENSE), [notices](../THIRD_PARTY_NOTICES.md) |

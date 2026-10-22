@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "reviewDate": "2026-10-22",
   "decision": "NO_GO",
-  "scope": "local engineering candidate; no deployment authorization",
+  "scope": "published engineering candidate; no production deployment or paid launch authorization",
   "gates": [
     {
       "id": "G01",
@@ -18,8 +18,11 @@
       "id": "G02",
       "owner": "Founder + engineering",
       "status": "open",
-      "reason": "Supplied public/empty GitHub remote and local Git/CODEOWNERS/protection settings prepared; publication choice, independent reviewer, remote CI and enforced settings pending",
-      "evidence": [],
+      "reason": "Candidate pushed to authorized public GitHub repository; branch protection, restricted Actions, Dependabot, secret scanning/push protection and private reporting verified. CI correction and independent reviewer/code-owner approval tracked in PR #1; gate remains open.",
+      "evidence": [
+        "docs/implementation/evidence/github-setup.md",
+        "docs/implementation/artifacts/github-setup/settings.json"
+      ],
       "reviewer": null,
       "reviewedAt": null,
       "expiresAt": null
@@ -134,6 +137,8 @@
     "docs/handoff/release-closure.md",
     "docs/implementation/evidence/release-closure.md",
     "docs/implementation/artifacts/release-closure/inventory.json",
-    "docs/implementation/artifacts/release-closure/repository.json"
+    "docs/implementation/artifacts/release-closure/repository.json",
+    "docs/implementation/evidence/github-setup.md",
+    "docs/implementation/artifacts/github-setup/settings.json"
   ]
 }
